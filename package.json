@@ -1,0 +1,19 @@
+{
+  "name": "flaggly",
+  "version": "0.0.0",
+  "description": "Declarative Feature Flagging for your Javascript App including Typescript and React support",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "author": "James Friedman",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^24.0.21",
+    "@types/node": "^12.12.5",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.4"
+  }
+}
