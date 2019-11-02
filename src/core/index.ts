@@ -140,7 +140,7 @@ const resolveFlagStorage = ({
   flagDef: FlagDefinition;
   storageMap: { [storageName: string]: ReadOrWriteStorage };
 }) => {
-  const storageName = flagDef.storage || '';
+  const storageName = flagDef.storage as string;
   if (storageMap[storageName]) return storageMap[storageName];
 
   if (storageName !== undefined) {
@@ -174,6 +174,11 @@ export const flaggly = <FFKeys extends string>({
       definitions,
       flagName: String(flagName),
       storageMap
+    });
+
+  const getDefault = (flagName: FFKeys): FlagValue =>
+    getFlagDefaultValue({
+      flagDef: getFlagDef({ definitions, flagName })
     });
 
   const isOn = (flagName: FFKeys): boolean => !!get(flagName);
@@ -210,14 +215,18 @@ export const flaggly = <FFKeys extends string>({
     hydrate();
   };
 
+  const getDefinitions = () => definitions;
+
   hydrate();
 
   return {
     isOn,
     is,
     get,
+    getDefault,
     set,
-    setDefinitions
+    setDefinitions,
+    getDefinitions
   };
 };
 

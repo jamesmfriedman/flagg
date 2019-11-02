@@ -5,6 +5,7 @@ export interface FlagDefinition {
   description?: string;
   storage?: string;
   default?: FlagValue;
+  options?: string[];
 }
 
 export interface FlagDefinitions {
