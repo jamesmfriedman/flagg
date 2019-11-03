@@ -5,9 +5,13 @@
   "main": "dist/index.js",
   "homepage": "https://jamesmfriedman.github.io/flagg/",
   "scripts": {
-    "build": "tsc",
-    "build:docs": "cd demo && npm run build && rm -rf ../docs && mv -f ./build ../docs && git add --all && git commit -m 'building docs'",
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf dist",
+    "build:docs": "cd demo && npm run build && rm -rf ../docs && mv -f ./build ../docs && git add --all && git commit -m 'Building Docs'",
     "test": "jest --coverage",
+    "preversion": "npm run clean && npm test",
+    "version": "npm run build",
+    "postpublish": "npm run clean && npm run build:docs && git push && git push --tags",
     "test:watch": "jest --watch"
   },
   "files": [
