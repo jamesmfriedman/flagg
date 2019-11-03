@@ -7,9 +7,11 @@
     "@types/node": "12.12.5",
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.3",
+    "classnames": "^2.2.6",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-scripts": "3.2.0",
+    "rmwc": "^5.7.1",
     "typescript": "3.6.4"
   },
   "config-overrides-path": "config/rewire",
@@ -35,6 +37,7 @@
   },
   "devDependencies": {
     "@hot-loader/react-dom": "^16.10.2",
+    "@types/classnames": "^2.2.9",
     "react-app-rewired": "^2.1.4",
     "react-hot-loader": "^4.12.15"
   }

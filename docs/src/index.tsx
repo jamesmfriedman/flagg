@@ -1,78 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './app';
 import * as serviceWorker from './serviceWorker';
+import { definitions } from './feature-flags';
 
 import { flaggly, sessionStore } from './flaggly';
 import { FlagglyProvider } from './flaggly/react';
 
-const featureFlags = flaggly({
+const featureFlags = flaggly<keyof typeof definitions>({
   storage: sessionStore(),
-  definitions: {
-    'home.dessertChoice': {
-      description: 'Pick a dessert choice.',
-      options: ['Cookies', 'Pizza', 'Icecream']
-    },
-    'home.anotherFlag': {
-      description: 'Another Flag.'
-    },
-    'home.string': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.string1': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.string2': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.string3': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.string4': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.string5': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.string6': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.string7': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.string8': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.string9': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.string10': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.string11': {
-      default: 'My String',
-      description: 'Another Flag.'
-    },
-    'home.allowUserInput': {},
-    helloWorld: {
-      default: true
-    },
-    anotherParam: {
-      default: 'param'
-    }
-  }
+  definitions
 });
 
 ReactDOM.render(

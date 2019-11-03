@@ -15,7 +15,9 @@ export interface FlagDefinitions {
 export interface FlagglyReadOnlyStorage {
   name: string;
   get: (featureFlag: string) => FlagValue;
-  all: () => { [key: string]: FlagValue };
+  all: () =>
+    | { [key: string]: FlagValue }
+    | Promise<{ [key: string]: FlagValue }>;
 }
 
 export interface FlagglyStorage extends FlagglyReadOnlyStorage {

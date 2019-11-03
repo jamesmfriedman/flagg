@@ -164,8 +164,9 @@ export const flaggly = <FFKeys extends string>({
   ) as FlagglyReadOnlyStorage[];
 
   const hydrate = () => {
-    hydrateFromStorages.forEach(hydrateStorage => {
-      set(hydrateStorage.all() as Partial<{ [key in FFKeys]: FlagValue }>);
+    hydrateFromStorages.forEach(async hydrateStorage => {
+      const values = await hydrateStorage.all();
+      set(values as Partial<{ [key in FFKeys]: FlagValue }>);
     });
   };
 
@@ -182,9 +183,6 @@ export const flaggly = <FFKeys extends string>({
     });
 
   const isOn = (flagName: FFKeys): boolean => !!get(flagName);
-
-  const is = (flagName: FFKeys, value: FlagValue): boolean =>
-    get(flagName) === value;
 
   const set = (
     flagNameOrFlags: FFKeys | Partial<{ [key in FFKeys]: FlagValue }>,
@@ -221,7 +219,6 @@ export const flaggly = <FFKeys extends string>({
 
   return {
     isOn,
-    is,
     get,
     getDefault,
     set,

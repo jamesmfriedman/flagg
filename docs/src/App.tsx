@@ -1,17 +1,15 @@
 import React from 'react';
-import './App.css';
-import { FlagglyAdmin, useFeatureFlag, useFeatureValue } from './flaggly/react';
+import styles from './app.module.css';
+import { FlagglyAdmin } from './flaggly/react';
+import { Demo } from './demo/demo';
 
-const App: React.FC = () => {
-  const one = useFeatureFlag('helloWorld');
-  const two = useFeatureValue('home.dessertChoice');
+function App() {
   return (
-    <div className="App">
+    <div className={styles.view}>
       <FlagglyAdmin />
-      <div>One: {JSON.stringify(one)}</div>
-      <div>Two: {two}</div>
+      <Demo />
     </div>
   );
-};
+}
 
 export default App;

@@ -59,25 +59,27 @@ describe('Flaggly Core', () => {
     }
   });
 
-  it('is: no default', () => {
+  it('get: default', () => {
     for (const storage of storages) {
       const featureFlags = flaggly<keyof typeof definitions>({
         definitions,
         storage
       });
 
-      expect(featureFlags.is('testFlag', null)).toBe(true);
+      expect(featureFlags.getDefault('testFlag.withDefault')).toBe(
+        'hello world'
+      );
     }
   });
 
-  it('is: with default', () => {
+  it('get: definitions', () => {
     for (const storage of storages) {
       const featureFlags = flaggly<keyof typeof definitions>({
         definitions,
         storage
       });
 
-      expect(featureFlags.is('testFlag.withDefault', 'hello world')).toBe(true);
+      expect(featureFlags.getDefinitions()).toEqual(definitions);
     }
   });
 

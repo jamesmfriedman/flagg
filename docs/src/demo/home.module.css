@@ -1,0 +1,15 @@
+.homeCard {
+  margin: 1rem;
+}
+
+.banner {
+  padding: 0.5rem 1rem;
+  background: #d4eddb;
+  color: #155724;
+  border-bottom: 1px solid #c3e6cb;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  --mdc-theme-primary: #155724;
+}

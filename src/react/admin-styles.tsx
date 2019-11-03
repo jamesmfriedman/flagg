@@ -3,12 +3,20 @@ export default /* css */ `
 .flaggly {
 	text-align: left;
 	position: relative;
-	background-color: rgba(0,0,0,.04);
+	background-color: #f6f6f9;
 	padding-bottom: 3rem;
+	overflow-y: auto;
+	max-height: 100vh;
+	box-sizing: border-box;
 }
 
 .flaggly * {
 	outline: none;
+}
+
+.flaggly-icon {
+	color: #f44436;
+	margin-right: 0.5rem;
 }
 
 .flaggly-header {
@@ -16,13 +24,18 @@ export default /* css */ `
 	line-height: 4rem;
 	position: sticky;
 	top: 0;
-	background: #31323d;
+	background: black;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	padding: 0 1.5rem;
 	margin-bottom: 3rem;
 	z-index: 3;
+}
+
+.flaggly-header .flaggly-icon {
+	position: relative;
+	top: 4px;
 }
 
 .flaggly-header__name {
@@ -56,11 +69,15 @@ export default /* css */ `
 	color: rgba(255,255,255,.2);
 }
 
+.flaggly-categories {
+	padding: 0 1rem;
+}
+
 .flaggly-category {
 	padding: 1.5rem;
 	box-shadow: 0 8px 24px rgba(0,0,0,.033);
 	border-radius: 0.75rem;
-	max-width: 38rem;
+	max-width: 50rem;
 	margin: 1rem auto;
 	background: white;
 }
@@ -68,6 +85,25 @@ export default /* css */ `
 .flaggly-control {
 	display: flex;
 	align-items: center;
+	flex: 1;
+	margin-left: 2rem;
+	justify-content: flex-end;
+}
+
+.flaggly-control .flaggly-icon {
+	transition: 0.2s;
+	opacity: 0;
+	transform: scale(0);	
+}
+
+.flaggly-control--override .flaggly-icon {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.flaggly-control--override .flaggly-icon:hover {
+	cursor: pointer;
+	
 }
 
 .flaggly-zero {
@@ -77,25 +113,9 @@ export default /* css */ `
 	opacity: 0.5;
 }
 
-.flaggly-override {
-	font-size: 0.75rem;
-	font-weight: bold;
-	letter-spacing: 1px;
-	border: 1px solid #f44436;
-	background: #f44436;
-	color: white;
-	display: inline-block;
-	vertical-align: middle;
-	padding: 0.25rem 0.33rem;
-	text-transform: uppercase;
-	margin-right: 1rem;
-	user-select: none;
-	border-radius: 3px;
-}
-
 .flaggly-category__name {
 	text-transform: capitalize;
-	font-size: 2rem;
+	font-size: 1.75rem;
 	font-weight: bold;
 	margin-bottom: 1rem;
 }
@@ -153,12 +173,12 @@ export default /* css */ `
 
 .flaggly-input {
 	font-size: 1.25rem;
-	text-align: right;
+	text-align: center;
 	line-height: 2rem;
 	padding: 0 0.5rem;
 	border-radius: 0.1875rem;
 	border: 1px solid rgba(0,0,0,.2);
-	width: 10rem;
+	width: 100%;
 }
 
 .flaggly-toggle {
@@ -202,7 +222,7 @@ export default /* css */ `
 }
 
 .flaggly-toggle:checked {
-	background-color: #00dbc5;
+	background-color: limegreen;
 }
 
 .flaggly-toggle:checked:before {

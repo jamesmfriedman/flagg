@@ -1,0 +1,8 @@
+.view {
+  display: flex;
+  height: 100%;
+}
+
+.view > * {
+  flex: 1;
+}
