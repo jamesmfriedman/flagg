@@ -2,13 +2,17 @@
   "name": "flagg",
   "version": "0.0.0",
   "description": "Declarative Feature Flagging for your Javascript App",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "homepage": "https://jamesmfriedman.github.io/flagg/",
   "scripts": {
     "build": "tsc",
     "build:docs": "cd demo && npm run build && mv -f ./build ../docs",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },
+  "files": [
+    "dist"
+  ],
   "author": "James Friedman",
   "license": "ISC",
   "devDependencies": {
