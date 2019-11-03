@@ -65,8 +65,7 @@ function HomeCard({ index }: { index: number }) {
       </CardPrimaryAction>
       <CardActions>
         <CardActionButtons>
-          <CardActionButton>Read</CardActionButton>
-          <CardActionButton>Bookmark</CardActionButton>
+          <CardActionButton>Comment</CardActionButton>
         </CardActionButtons>
         <CardActionIcons>
           <CardActionIcon onIcon="favorite" icon="favorite_border" />

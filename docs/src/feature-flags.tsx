@@ -6,7 +6,7 @@ import { FlagValue } from 'flaggly';
 
 export const definitions = {
   'app.title': {
-    default: 'ACME Corp'
+    default: 'InstaSnap'
   },
   'app.darkMode': {
     default: false
@@ -19,6 +19,10 @@ export const definitions = {
     default: false
   },
   'developer.debug': {},
+  'developer.enableFlaggly': {
+    default: true,
+    description: 'Very meta... A feature flag to enable Flaggly.'
+  },
   'developer.enableExperimentalFeatures': {},
   'developer.apiUrl': {
     default: 'http://www.example.com/graphql'

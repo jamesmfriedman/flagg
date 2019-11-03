@@ -151,6 +151,18 @@ const resolveFlagStorage = ({
   return storageMap[DEFAULT_STORAGE_NAME];
 };
 
+const getFlagType = ({ flagDef }: { flagDef: FlagDefinition }) => {
+  if (flagDef.options) {
+    return 'select';
+  }
+
+  if (typeof flagDef.default === 'string') {
+    return 'string';
+  }
+
+  return 'boolean';
+};
+
 /** Create a new feature flags store with Flaggly. */
 export const flaggly = <FFKeys extends string>({
   storage,
@@ -208,6 +220,14 @@ export const flaggly = <FFKeys extends string>({
     }
   };
 
+  const isOverridden = (flagName: FFKeys) => {
+    const flagDef = getFlagDef({ flagName, definitions });
+    const type = getFlagType({ flagDef });
+    return type === 'boolean'
+      ? isOn(flagName) !== !!getDefault(flagName)
+      : get(flagName) !== getDefault(flagName);
+  };
+
   const setDefinitions = (newDefinitions: FlagDefinitions) => {
     definitions = newDefinitions;
     hydrate();
@@ -215,15 +235,38 @@ export const flaggly = <FFKeys extends string>({
 
   const getDefinitions = () => definitions;
 
+  const getAllResolved = () => {
+    return Object.keys(definitions).reduce<
+      Partial<{ [key in FFKeys]: FlagValue }>
+    >((acc, flagName) => {
+      acc[flagName as FFKeys] = get(flagName as FFKeys);
+      return acc;
+    }, {});
+  };
+
+  const getAllOverridden = () => {
+    return Object.keys(definitions).reduce<
+      Partial<{ [key in FFKeys]: FlagValue }>
+    >((acc, flagName) => {
+      if (isOverridden(flagName as FFKeys)) {
+        acc[flagName as FFKeys] = get(flagName as FFKeys);
+      }
+      return acc;
+    }, {});
+  };
+
   hydrate();
 
   return {
     isOn,
     get,
-    getDefault,
     set,
+    getDefault,
+    isOverridden,
     setDefinitions,
-    getDefinitions
+    getDefinitions,
+    getAllResolved,
+    getAllOverridden
   };
 };
 
