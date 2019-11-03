@@ -52,6 +52,7 @@ const addBabelPlugin = plugin => config => {
 const addAliases = config => {
   config.resolve.alias = {
     ...(config.resolve.alias || {}),
+    react: path.resolve('../node_modules/react'),
     flagg: path.resolve('src/flagg')
   };
 
@@ -75,7 +76,6 @@ const enableHotReload = config => {
 
   config.resolve.alias = {
     ...(config.resolve.alias || {}),
-    react: path.resolve('../node_modules/react'),
     'react-dom': '@hot-loader/react-dom'
   };
 
