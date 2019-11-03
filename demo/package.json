@@ -2,7 +2,7 @@
   "name": "docs",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jamesmfriedman.github.io/flagg/",
+  "homepage": "https://jamesmfriedman.github.io/flagg",
   "dependencies": {
     "@types/jest": "24.0.21",
     "@types/node": "12.12.5",
