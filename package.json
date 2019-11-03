@@ -1,9 +1,11 @@
 {
-  "name": "flaggly",
+  "name": "flagg",
   "version": "0.0.0",
-  "description": "Declarative Feature Flagging for your Javascript App including Typescript and React support",
+  "description": "Declarative Feature Flagging for your Javascript App",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "build:docs": "cd demo && npm run build && mv -f ./build ../docs",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },

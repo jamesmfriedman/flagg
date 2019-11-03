@@ -1,6 +1,6 @@
 export default /* css */ `
 
-.flaggly {
+.flagg {
 	text-align: left;
 	position: relative;
 	background-color: #f6f6f9;
@@ -12,16 +12,16 @@ export default /* css */ `
 	flex-direction: column;
 }
 
-.flaggly * {
+.flagg * {
 	outline: none;
 }
 
-.flaggly-flag-icon {
+.flagg-flag-icon {
 	color: #f44436;
 	margin-right: 0.5rem;
 }
 
-.flaggly-header {
+.flagg-header {
 	height: 4rem;
 	line-height: 4rem;
 	position: sticky;
@@ -35,12 +35,12 @@ export default /* css */ `
 	z-index: 3;
 }
 
-.flaggly-header .flaggly-flag-icon {
+.flagg-header .flagg-flag-icon {
 	position: relative;
 	top: 4px;
 }
 
-.flaggly-header__name {
+.flagg-header__name {
 	font-size: 1.25rem;
 	font-weight: bold;
 	color: white;
@@ -50,26 +50,26 @@ export default /* css */ `
 	margin-right: 2rem;
 }
 
-.flaggly-header__lead {
+.flagg-header__lead {
 	display: flex;
 	flex: 1;
 	align-items: center;
 }
 
-.flaggly-header__end {
+.flagg-header__end {
 	display: flex;
 	align-items: center;
 }
 
-.flaggly-category--search {
+.flagg-category--search {
 	position: relative;
 }
 
-.flaggly-category--search:focus-within .flaggly-search-icon {
+.flagg-category--search:focus-within .flagg-search-icon {
 	color: #f44436;
 }
 
-.flaggly-search {
+.flagg-search {
 	height: 4rem;
 	padding: 1rem;
 	-webkit-appearance: none;
@@ -87,18 +87,18 @@ export default /* css */ `
 	text-indent: 3rem;
 }
 
-.flaggly-search-icon {
+.flagg-search-icon {
 	position: relative;
 	top: 4px;
 	transition: 0.3s;
 }
 
-.flaggly-categories {
+.flagg-categories {
 	padding: 0 1rem;
 	flex: 1;
 }
 
-.flaggly-category {
+.flagg-category {
 	padding: 1rem;
 	box-shadow: 0 8px 24px rgba(0,0,0,.033);
 	border-radius: 0.75rem;
@@ -107,7 +107,7 @@ export default /* css */ `
 	background: white;
 }
 
-.flaggly-control {
+.flagg-control {
 	display: flex;
 	align-items: center;
 	flex: 1;
@@ -115,37 +115,37 @@ export default /* css */ `
 	justify-content: flex-end;
 }
 
-.flaggly-control .flaggly-flag-icon {
+.flagg-control .flagg-flag-icon {
 	transition: 0.2s;
 	opacity: 0;
 	transform: scale(0);	
 }
 
-.flaggly-control--override .flaggly-flag-icon {
+.flagg-control--override .flagg-flag-icon {
 	opacity: 1;
 	transform: scale(1);
 }
 
-.flaggly-control--override .flaggly-flag-icon:hover {
+.flagg-control--override .flagg-flag-icon:hover {
 	cursor: pointer;
 	
 }
 
-.flaggly-zero {
+.flagg-zero {
 	text-align: center;
 	font-size: 2rem;
 	padding: 4rem;
 	opacity: 0.5;
 }
 
-.flaggly-category__name {
+.flagg-category__name {
 	text-transform: capitalize;
 	font-size: 1.75rem;
 	font-weight: bold;
 	margin-bottom: 1rem;
 }
 
-.flaggly-button {
+.flagg-button {
 	-webkit-appearance: none;
 	background: none;
 	color: white;
@@ -160,11 +160,11 @@ export default /* css */ `
 	border-radius: 0.1875rem;
 }
 
-.flaggly-button:hover, .flaggly-button:focus {
+.flagg-button:hover, .flagg-button:focus {
 	background-color: rgba(255,255,255, 0.1);
 }
 
-.flaggly-flag {
+.flagg-flag {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -175,38 +175,38 @@ export default /* css */ `
 	cursor: pointer;
 }
 
-.flaggly-flag > div:first-child {
+.flagg-flag > div:first-child {
 	max-width: calc(100% - 7rem);
 }
 
-.flaggly-flag:hover {
+.flagg-flag:hover {
 	background-color: rgba(0,0,0,.05);
 }
 
-.flaggly-flag__category-name {
+.flagg-flag__category-name {
 	opacity: 0.7;
 }
 
-.flaggly-flag__name {
+.flagg-flag__name {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-.flaggly-flag__flag-name {
+.flagg-flag__flag-name {
 	font-weight: 500;
 }
 
-.flaggly-flag__description {
+.flagg-flag__description {
 	font-size: 0.875rem;
 	opacity: 0.7;
 	margin-top: 0.25rem;
 }
 
-.flaggly-select {
+.flagg-select {
 	font-size: 1.25rem;
 }
 
-.flaggly-input {
+.flagg-input {
 	font-size: 1.25rem;
 	text-align: center;
 	line-height: 2rem;
@@ -216,7 +216,7 @@ export default /* css */ `
 	width: 100%;
 }
 
-.flaggly-toggle {
+.flagg-toggle {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -234,7 +234,7 @@ export default /* css */ `
 	
 }
 
-.flaggly-toggle:before {
+.flagg-toggle:before {
 	content: "on off";
 	display: block;
 	position: absolute;
@@ -256,15 +256,15 @@ export default /* css */ `
 	transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
 }
 
-.flaggly-toggle:checked {
+.flagg-toggle:checked {
 	background-color: limegreen;
 }
 
-.flaggly-toggle:checked:before {
+.flagg-toggle:checked:before {
 	left: 2rem;
 }
 
-.flaggly-footer {
+.flagg-footer {
 	text-align: center;
 	font-size: 0.875rem;
 	padding-top: 1rem;

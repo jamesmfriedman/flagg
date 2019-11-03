@@ -1,8 +1,8 @@
 import React from 'react';
 import { inMemoryStore } from '../storage';
-import { flaggly } from '../core';
+import { flagg } from '../core';
 
-export const FlagglyContext = React.createContext({
-  featureFlags: flaggly({ storage: inMemoryStore() }),
+export const FlaggContext = React.createContext({
+  featureFlags: flagg({ storage: inMemoryStore() }),
   iteration: 0
 });

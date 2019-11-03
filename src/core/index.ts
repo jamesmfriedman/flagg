@@ -1,16 +1,16 @@
 import {
-  FlagglyOpts,
-  FlagglyStorage,
+  FlaggOpts,
+  FlaggStorage,
   FlagDefinition,
   FlagDefinitions,
   FlagValue,
-  FlagglyReadOnlyStorage,
-  FlagglyStorageInput
+  FlaggReadOnlyStorage,
+  FlaggStorageInput
 } from './defs';
 
 export * from './defs';
 
-type ReadOrWriteStorage = FlagglyStorage | FlagglyReadOnlyStorage;
+type ReadOrWriteStorage = FlaggStorage | FlaggReadOnlyStorage;
 
 const DEFAULT_STORAGE_NAME = '_default';
 
@@ -20,7 +20,7 @@ const makeArray = <T>(val: T) =>
 
 /** Takes a single or array of storage items and makes a name -> value map */
 const makeStorageMap = (
-  _storage: FlagglyStorageInput
+  _storage: FlaggStorageInput
 ): { [storageName: string]: ReadOrWriteStorage } => {
   const storageArr = makeArray(_storage) as ReadOrWriteStorage[];
   return storageArr.reduce<{
@@ -109,7 +109,7 @@ const setFlagValue = ({
       storage.remove(flagName);
     } else {
       console.warn(
-        `Flaggly: Attempting to write to readOnly storage ${storage.name}`
+        `Flagg: Attempting to write to readOnly storage ${storage.name}`
       );
     }
   } else {
@@ -117,7 +117,7 @@ const setFlagValue = ({
       storage.set(flagName, value);
     } else {
       console.warn(
-        `Flaggly: Attempting to write to readOnly storage ${storage.name}`
+        `Flagg: Attempting to write to readOnly storage ${storage.name}`
       );
     }
   }
@@ -145,7 +145,7 @@ const resolveFlagStorage = ({
 
   if (storageName !== undefined) {
     console.warn(
-      `Flaggly storage "${storageName}" not available. Did you forget to include it? Using default storage instead.`
+      `Flagg storage "${storageName}" not available. Did you forget to include it? Using default storage instead.`
     );
   }
   return storageMap[DEFAULT_STORAGE_NAME];
@@ -163,17 +163,17 @@ const getFlagType = ({ flagDef }: { flagDef: FlagDefinition }) => {
   return 'boolean';
 };
 
-/** Create a new feature flags store with Flaggly. */
-export const flaggly = <FFKeys extends string>({
+/** Create a new feature flags store with Flagg. */
+export const flagg = <FFKeys extends string>({
   storage,
   definitions: _definitions = {},
   hydrateFrom
-}: FlagglyOpts) => {
+}: FlaggOpts) => {
   let definitions = _definitions;
   const storageMap = makeStorageMap(storage);
   const hydrateFromStorages = makeArray(
     hydrateFrom
-  ) as FlagglyReadOnlyStorage[];
+  ) as FlaggReadOnlyStorage[];
 
   const hydrate = () => {
     hydrateFromStorages.forEach(async hydrateStorage => {
@@ -270,4 +270,4 @@ export const flaggly = <FFKeys extends string>({
   };
 };
 
-export default flaggly;
+export default flagg;

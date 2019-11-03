@@ -1,9 +1,9 @@
-import { FlagglyReadOnlyStorage, FlagValue } from '../core';
+import { FlaggReadOnlyStorage, FlagValue } from '../core';
 import { getKey, KEY_PREFIX, mapFromStoredValuesWithPrefix } from './utils';
 
 export const envStore = (env: {
   [key: string]: FlagValue;
-}): FlagglyReadOnlyStorage => {
+}): FlaggReadOnlyStorage => {
   const get = (flagName: string): FlagValue => env[getKey(flagName)] || null;
   return {
     name: 'envStore',

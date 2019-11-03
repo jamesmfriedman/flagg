@@ -5,18 +5,18 @@ import App from './app';
 import * as serviceWorker from './serviceWorker';
 import { definitions } from './feature-flags';
 
-import { flaggly, sessionStore } from './flaggly';
-import { FlagglyProvider } from './flaggly/react';
+import { flagg, sessionStore } from './flagg';
+import { FlaggProvider } from './flagg/react';
 
-const featureFlags = flaggly<keyof typeof definitions>({
+const featureFlags = flagg<keyof typeof definitions>({
   storage: sessionStore(),
   definitions
 });
 
 ReactDOM.render(
-  <FlagglyProvider featureFlags={featureFlags}>
+  <FlaggProvider featureFlags={featureFlags}>
     <App />
-  </FlagglyProvider>,
+  </FlaggProvider>,
   document.getElementById('root')
 );
 

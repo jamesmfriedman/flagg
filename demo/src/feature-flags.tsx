@@ -1,8 +1,8 @@
 import {
   useFeatureFlag as ffUseFeatureFlag,
   useFeatureValue as ffUseFeatureValue
-} from 'flaggly/react';
-import { FlagValue } from 'flaggly';
+} from 'flagg/react';
+import { FlagValue } from 'flagg';
 
 export const definitions = {
   'app.title': {
@@ -19,9 +19,9 @@ export const definitions = {
     default: false
   },
   'developer.debug': {},
-  'developer.enableFlaggly': {
+  'developer.enableFlagg': {
     default: true,
-    description: 'Very meta... A feature flag to enable Flaggly.'
+    description: 'Very meta... A feature flag to enable Flagg.'
   },
   'developer.enableExperimentalFeatures': {},
   'developer.apiUrl': {

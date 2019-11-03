@@ -52,7 +52,7 @@ const addBabelPlugin = plugin => config => {
 const addAliases = config => {
   config.resolve.alias = {
     ...(config.resolve.alias || {}),
-    flaggly: path.resolve('src/flaggly')
+    flagg: path.resolve('src/flagg')
   };
 
   const loaders = getLoaderRoot(config);
@@ -88,7 +88,6 @@ const enableHotReload = config => {
 // Build the webpack config
 module.exports = {
   webpack: (config, env) => {
-    console.log('𝚫 Launching Delta');
     return pipe(
       addAliases,
       enableHotReload

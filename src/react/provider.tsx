@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { flaggly } from '../core';
-import { FlagglyContext } from './context';
+import { flagg } from '../core';
+import { FlaggContext } from './context';
 
-export function FlagglyProvider<FF extends ReturnType<typeof flaggly> | any>({
+export function FlaggProvider<FF extends ReturnType<typeof flagg> | any>({
   children,
   featureFlags
 }: {
@@ -10,7 +10,7 @@ export function FlagglyProvider<FF extends ReturnType<typeof flaggly> | any>({
   featureFlags: FF;
 }) {
   const [iteration, setIteration] = useState(0);
-  const ff = (featureFlags as unknown) as ReturnType<typeof flaggly>;
+  const ff = (featureFlags as unknown) as ReturnType<typeof flagg>;
 
   useEffect(() => {
     const originalSet = featureFlags.set;
@@ -23,8 +23,8 @@ export function FlagglyProvider<FF extends ReturnType<typeof flaggly> | any>({
   }, []);
 
   return (
-    <FlagglyContext.Provider value={{ featureFlags: ff, iteration }}>
+    <FlaggContext.Provider value={{ featureFlags: ff, iteration }}>
       {children}
-    </FlagglyContext.Provider>
+    </FlaggContext.Provider>
   );
 }

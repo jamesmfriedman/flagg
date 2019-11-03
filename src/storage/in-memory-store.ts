@@ -1,7 +1,7 @@
-import { FlagglyStorage, FlagValue } from '../core';
+import { FlaggStorage, FlagValue } from '../core';
 import { getKey, mapFromStoredValuesWithPrefix } from './utils';
 
-export const inMemoryStore = (): FlagglyStorage => {
+export const inMemoryStore = (): FlaggStorage => {
   const store: { [key: string]: FlagValue } = {};
   const get = (flagName: string): FlagValue => store[getKey(flagName)] || null;
   return {

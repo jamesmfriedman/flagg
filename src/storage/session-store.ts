@@ -1,7 +1,7 @@
-import { FlagglyStorage, FlagValue } from '../core';
+import { FlaggStorage, FlagValue } from '../core';
 import { getKey, safeParseJSON, mapFromStoredValuesWithPrefix } from './utils';
 
-export const sessionStore = (): FlagglyStorage => {
+export const sessionStore = (): FlaggStorage => {
   const get = (flagName: string): FlagValue =>
     safeParseJSON(window.sessionStorage.getItem(getKey(flagName)));
 

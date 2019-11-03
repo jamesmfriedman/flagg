@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { flaggly } from '../core';
+import { flagg } from '../core';
 import { FlagDefinitions, FlagDefinition } from '../core';
-import { FlagglyContext } from './context';
+import { FlaggContext } from './context';
 import styles from './admin-styles';
 
-export function FlagglyAdmin({ onDone }: { onDone?: () => void }) {
+export function FlaggAdmin({ onDone }: { onDone?: () => void }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const { featureFlags: ff } = useContext(FlagglyContext);
+  const { featureFlags: ff } = useContext(FlaggContext);
   const definitions = getSortedDefinitions(
     ff.getDefinitions(),
     searchTerm.toLowerCase().trim()
@@ -23,51 +23,51 @@ export function FlagglyAdmin({ onDone }: { onDone?: () => void }) {
   };
 
   return (
-    <div className="flaggly">
+    <div className="flagg">
       <style>{styles}</style>
-      <div className="flaggly-header">
-        <div className="flaggly-header__lead">
-          <span className="flaggly-header__name">
+      <div className="flagg-header">
+        <div className="flagg-header__lead">
+          <span className="flagg-header__name">
             <Icon icon="flag" />
-            <span>Flaggly</span>
+            <span>Flagg</span>
           </span>
         </div>
 
-        <div className="flaggly-header__end">
+        <div className="flagg-header__end">
           <button
-            className="flaggly-button"
+            className="flagg-button"
             onClick={() => navigator.clipboard.writeText(shareUrl)}
           >
             <Icon icon="link" />
           </button>
-          <button className="flaggly-button" onClick={reset}>
+          <button className="flagg-button" onClick={reset}>
             <Icon icon="refresh" />
           </button>
           {onDone && (
-            <button className="flaggly-button" onClick={onDone}>
+            <button className="flagg-button" onClick={onDone}>
               <Icon icon="checkCircle" />
             </button>
           )}
         </div>
       </div>
-      <div className="flaggly-categories">
-        <div className="flaggly-category flaggly-category--search">
+      <div className="flagg-categories">
+        <div className="flagg-category flagg-category--search">
           <Icon icon="search" />
           <input
             value={searchTerm}
             onChange={evt => setSearchTerm(evt.currentTarget.value)}
-            className="flaggly-search"
+            className="flagg-search"
             type="search"
             placeholder="Search Feature Flags"
           />
         </div>
         {!definitions.length && (
-          <div className="flaggly-zero">Nothing to see here...</div>
+          <div className="flagg-zero">Nothing to see here...</div>
         )}
         {definitions.map(({ categoryName, values }) => {
           return (
-            <div key={categoryName} className="flaggly-category">
-              <div className="flaggly-category__name">
+            <div key={categoryName} className="flagg-category">
+              <div className="flagg-category__name">
                 {categoryName || 'Flags'}
               </div>
               {values.map(({ flagName, name, definition }) => (
@@ -91,9 +91,9 @@ export function FlagglyAdmin({ onDone }: { onDone?: () => void }) {
 
 function Footer() {
   return (
-    <div className="flaggly-footer">
+    <div className="flagg-footer">
       Made with ❤️in Sunny FL &middot;{' '}
-      <a href="https://github.com/jamesmfriedman/flaggly">Visit Github</a>
+      <a href="https://github.com/jamesmfriedman/flagg">Visit Github</a>
     </div>
   );
 }
@@ -121,7 +121,7 @@ function Icon({
       height="24"
       viewBox="0 0 24 24"
       {...props}
-      className={`flaggly-${icon}-icon`}
+      className={`flagg-${icon}-icon`}
     >
       <path fill="currentColor" d={path} />
     </svg>
@@ -138,7 +138,7 @@ function Flag({
   flagName: string;
   definition: FlagDefinition;
   name: string;
-  ff: ReturnType<typeof flaggly>;
+  ff: ReturnType<typeof flagg>;
   categoryName: string;
 }) {
   let control = null;
@@ -173,7 +173,7 @@ function Flag({
   return (
     <div
       key={flagName}
-      className="flaggly-flag"
+      className="flagg-flag"
       onClick={
         controlType === 'toggle'
           ? () => ff.set(flagName, !ff.get(flagName))
@@ -181,15 +181,15 @@ function Flag({
       }
     >
       <div>
-        <div className="flaggly-flag__name">
-          {/* <span className="flaggly-flag__category-name">
+        <div className="flagg-flag__name">
+          {/* <span className="flagg-flag__category-name">
             {categoryName}
             {!!categoryName && '.'}
           </span> */}
-          <span className="flaggly-flag__flag-name">{name}</span>
+          <span className="flagg-flag__flag-name">{name}</span>
         </div>
         {!!definition.description && (
-          <div className="flaggly-flag__description">
+          <div className="flagg-flag__description">
             {definition.description}
           </div>
         )}
@@ -197,8 +197,8 @@ function Flag({
       <div
         title={flagName + ' - Default: ' + String(ff.getDefault(flagName))}
         className={[
-          'flaggly-control',
-          isOverride && 'flaggly-control--override'
+          'flagg-control',
+          isOverride && 'flagg-control--override'
         ]
           .filter(Boolean)
           .join(' ')}
@@ -217,11 +217,11 @@ function Flag({
 }
 
 function Toggle({ ...props }: React.HTMLProps<HTMLInputElement>) {
-  return <input type="checkbox" className="flaggly-toggle" {...props} />;
+  return <input type="checkbox" className="flagg-toggle" {...props} />;
 }
 
 function Input({ ...props }: React.HTMLProps<HTMLInputElement>) {
-  return <input type="text" className="flaggly-input" {...props} />;
+  return <input type="text" className="flagg-input" {...props} />;
 }
 
 function Select({
@@ -233,7 +233,7 @@ function Select({
   HTMLSelectElement
 >) {
   return (
-    <select className="flaggly-select" value={value || ''} {...props}>
+    <select className="flagg-select" value={value || ''} {...props}>
       {!defaultValue && <option value={''}>-- OFF --</option>}
       {options.map(option => (
         <option key={option} value={option}>

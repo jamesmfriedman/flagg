@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFeatureFlag } from 'flaggly/react';
+import { useFeatureFlag } from 'flagg/react';
 import styles from './home.module.css';
 import { Button } from 'rmwc';
 

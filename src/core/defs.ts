@@ -12,7 +12,7 @@ export interface FlagDefinitions {
   [flagName: string]: FlagDefinition;
 }
 
-export interface FlagglyReadOnlyStorage {
+export interface FlaggReadOnlyStorage {
   name: string;
   get: (featureFlag: string) => FlagValue;
   all: () =>
@@ -20,18 +20,18 @@ export interface FlagglyReadOnlyStorage {
     | Promise<{ [key: string]: FlagValue }>;
 }
 
-export interface FlagglyStorage extends FlagglyReadOnlyStorage {
+export interface FlaggStorage extends FlaggReadOnlyStorage {
   set: (featureFlag: string, value: FlagValue) => void;
   remove: (featureFlag: string) => void;
 }
 
-export type FlagglyStorageInput =
-  | FlagglyStorage
-  | FlagglyReadOnlyStorage
-  | Array<FlagglyStorage | FlagglyReadOnlyStorage>;
+export type FlaggStorageInput =
+  | FlaggStorage
+  | FlaggReadOnlyStorage
+  | Array<FlaggStorage | FlaggReadOnlyStorage>;
 
-export interface FlagglyOpts {
-  storage: FlagglyStorageInput;
+export interface FlaggOpts {
+  storage: FlaggStorageInput;
   definitions?: FlagDefinitions;
-  hydrateFrom?: FlagglyReadOnlyStorage | Array<FlagglyReadOnlyStorage>;
+  hydrateFrom?: FlaggReadOnlyStorage | Array<FlaggReadOnlyStorage>;
 }

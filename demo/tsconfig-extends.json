@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "flagg": ["../src/flagg"],
+      "flagg/*": ["../src/flagg/*"]
+    }
+  }
+}

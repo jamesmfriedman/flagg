@@ -1,4 +1,4 @@
-import { flaggly } from '../core';
+import { flagg } from '../core';
 
 import { localStore } from '../storage/local-store';
 import { inMemoryStore } from '../storage/in-memory-store';
@@ -31,7 +31,7 @@ const storages = [localStore(), inMemoryStore(), sessionStore()];
 
 process.env['ff.testFlag'] = 'ENV_VALUE';
 
-describe('Flaggly Core', () => {
+describe('Flagg Core', () => {
   afterEach(() => {
     window.localStorage.clear();
     window.sessionStorage.clear();
@@ -39,7 +39,7 @@ describe('Flaggly Core', () => {
 
   it('isOn: no default', () => {
     for (const storage of storages) {
-      const featureFlags = flaggly<keyof typeof definitions>({
+      const featureFlags = flagg<keyof typeof definitions>({
         definitions,
         storage
       });
@@ -50,7 +50,7 @@ describe('Flaggly Core', () => {
 
   it('isOn: with default', () => {
     for (const storage of storages) {
-      const featureFlags = flaggly<keyof typeof definitions>({
+      const featureFlags = flagg<keyof typeof definitions>({
         definitions,
         storage
       });
@@ -61,7 +61,7 @@ describe('Flaggly Core', () => {
 
   it('get: default', () => {
     for (const storage of storages) {
-      const featureFlags = flaggly<keyof typeof definitions>({
+      const featureFlags = flagg<keyof typeof definitions>({
         definitions,
         storage
       });
@@ -74,7 +74,7 @@ describe('Flaggly Core', () => {
 
   it('get: definitions', () => {
     for (const storage of storages) {
-      const featureFlags = flaggly<keyof typeof definitions>({
+      const featureFlags = flagg<keyof typeof definitions>({
         definitions,
         storage
       });
@@ -85,7 +85,7 @@ describe('Flaggly Core', () => {
 
   it('get: no default', () => {
     for (const storage of storages) {
-      const featureFlags = flaggly<keyof typeof definitions>({
+      const featureFlags = flagg<keyof typeof definitions>({
         definitions,
         storage
       });
@@ -96,7 +96,7 @@ describe('Flaggly Core', () => {
 
   it('get: with default', () => {
     for (const storage of storages) {
-      const featureFlags = flaggly<keyof typeof definitions>({
+      const featureFlags = flagg<keyof typeof definitions>({
         definitions,
         storage
       });
@@ -107,7 +107,7 @@ describe('Flaggly Core', () => {
 
   it('set', () => {
     for (const storage of storages) {
-      const featureFlags = flaggly<keyof typeof definitions>({
+      const featureFlags = flagg<keyof typeof definitions>({
         definitions,
         storage
       });
@@ -121,7 +121,7 @@ describe('Flaggly Core', () => {
 
   it('set many at once', () => {
     for (const storage of storages) {
-      const featureFlags = flaggly<keyof typeof definitions>({
+      const featureFlags = flagg<keyof typeof definitions>({
         definitions,
         storage
       });
@@ -138,7 +138,7 @@ describe('Flaggly Core', () => {
 
   it('handles arrays', () => {
     for (const storage of storages) {
-      const featureFlags = flaggly<keyof typeof definitions>({
+      const featureFlags = flagg<keyof typeof definitions>({
         definitions,
         storage
       });
@@ -161,7 +161,7 @@ describe('Flaggly Core', () => {
 
   it('handles objects', () => {
     for (const storage of storages) {
-      const featureFlags = flaggly<keyof typeof definitions>({
+      const featureFlags = flagg<keyof typeof definitions>({
         definitions,
         storage
       });
@@ -199,7 +199,7 @@ describe('Flaggly Core', () => {
   });
 
   it('specific storage: missing storage returns default storage', () => {
-    const featureFlags = flaggly<keyof typeof definitions>({
+    const featureFlags = flagg<keyof typeof definitions>({
       definitions,
       storage: [inMemoryStore(), sessionStore()]
     });
@@ -211,7 +211,7 @@ describe('Flaggly Core', () => {
   });
 
   it('specific storage: works', () => {
-    const featureFlags = flaggly<keyof typeof definitions>({
+    const featureFlags = flagg<keyof typeof definitions>({
       definitions,
       storage: [inMemoryStore(), localStore()]
     });
@@ -221,7 +221,7 @@ describe('Flaggly Core', () => {
   });
 
   it('urlStore: works', () => {
-    const featureFlags = flaggly<keyof typeof definitions>({
+    const featureFlags = flagg<keyof typeof definitions>({
       definitions,
       storage: urlStore(
         '?ff={%22testFlag%22:%22urlIsWorking%22}&anotherVar=foo'
@@ -236,7 +236,7 @@ describe('Flaggly Core', () => {
   });
 
   it('urlStore: has fallback', () => {
-    const featureFlags = flaggly<keyof typeof definitions>({
+    const featureFlags = flagg<keyof typeof definitions>({
       definitions,
       hydrateFrom: urlStore(''),
       storage: inMemoryStore()
@@ -246,7 +246,7 @@ describe('Flaggly Core', () => {
   });
 
   it('envStore: works', () => {
-    const featureFlags = flaggly<keyof typeof definitions>({
+    const featureFlags = flagg<keyof typeof definitions>({
       definitions,
       hydrateFrom: envStore(process.env),
       storage: envStore(process.env)
@@ -263,7 +263,7 @@ describe('Flaggly Core', () => {
   });
 
   it('lets definitions be set asynchronously', done => {
-    const featureFlags = flaggly<keyof typeof definitions>({
+    const featureFlags = flagg<keyof typeof definitions>({
       storage: inMemoryStore()
     });
 
