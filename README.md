@@ -11,9 +11,9 @@ Features:
 - Includes an admin that you can use with React or Web Components
 
 TOC
-- [What For?](#what-for?)
-- [Get Started](#get-started?)
-- [Solutions by Use Case](#solutions-by-use-case?)
+- [What For?](#what-for)
+- [Get Started](#get-started)
+- [Solutions by Use Case](#solutions-by-use-case)
 - [Stores](#stores)
 - [Security](#security)
 - [API](#api)
