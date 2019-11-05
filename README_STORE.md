@@ -4,17 +4,17 @@ If none of the built in stores suit your needs, writing your own is incredibly s
 
 ```typescript
 const myStorage: () => {
-	/** A unique name for your store */
-	name: string;
-	/** Takes a feature flags name and returns a value */
-	get: (featureFlag: string) => FlagValue;
-	/** Returns all feature flags present in the store. Note that this method can be async. */
+  /** A unique name for your store */
+  name: string;
+  /** Takes a feature flags name and returns a value */
+  get: (featureFlag: string) => FlagValue;
+  /** Returns all feature flags present in the store. Note that this method can be async. */
   all: () =>
     | { [key: string]: FlagValue }
-		| Promise<{ [key: string]: FlagValue }>;
-	/** Sets a feature flag in the store */
-	set: (featureFlag: string, value: FlagValue) => void;
-	/** Removes a feature flag from the store */
+    | Promise<{ [key: string]: FlagValue }>;
+  /** Sets a feature flag in the store */
+  set: (featureFlag: string, value: FlagValue) => void;
+  /** Removes a feature flag from the store */
   remove: (featureFlag: string) => void;
 }
 ```
@@ -31,10 +31,10 @@ const sampleAsyncStore = (): FlaggStore => {
     name: 'sampleAsyncStore',
     get: (flagName: string): FlagValue => store[flagName] || null,
     set: (flagName, value) => {
-			// store in memory first
-			store[flagName] = value;
-			// save it somewhere async
-			saveItAsynchronously(flagName, value);
+      // store in memory first
+      store[flagName] = value;
+      // save it somewhere async
+      saveItAsynchronously(flagName, value);
     },
     remove: flagName => delete store[getKey(flagName)],
     all: () => store
@@ -43,16 +43,16 @@ const sampleAsyncStore = (): FlaggStore => {
 
 // init Flagg
 const ff = flagg({
-	definitions: {},
-	store: sampleAsyncStore();
+  definitions: {},
+  store: sampleAsyncStore();
 })
 
 // Load your async values
 loadAsyncStoreValues().then(res => {
-	// assuming res {flagName: flagValue};
-	ff.set(res)
+  // assuming res {flagName: flagValue};
+  ff.set(res)
 }).then(() => {
-	// the in memory object will now contain all values from the async store
-	// so we can now safely call ff.get('flagName') anywhere synchronously
+  // the in memory object will now contain all values from the async store
+  // so we can now safely call ff.get('flagName') anywhere synchronously
 });
 ```
