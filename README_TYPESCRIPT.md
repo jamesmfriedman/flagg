@@ -8,13 +8,13 @@ You can pass a list of valid keys as a union to the `flagg` init function. The s
 
 ```typescript
 const definitions = {
-	myFeatureFlag: {},
-	anotherFlag: {}/
+  myFeatureFlag: {},
+  anotherFlag: {}/
 }
 
 const ff = flagg<keyof typeof definitions>({
-	definitions,
-	store: inMemoryStore()
+  definitions,
+  store: inMemoryStore()
 });
 
 ff.get('myFeatureFlag'); // works
@@ -30,8 +30,8 @@ Because React hooks don't have any context of the feature flag types, they only 
 import {useFeatureFlag as ffUseFeatureFlag, FlagValue} from 'flagg/react';
 
 const definitions = {
-	myFeatureFlag: {},
-	anotherFlag: {}/
+  myFeatureFlag: {},
+  anotherFlag: {}/
 }
 
 export const useFeatureFlag = <T extends FlagValue>(
@@ -39,9 +39,9 @@ export const useFeatureFlag = <T extends FlagValue>(
 ) => ffUseFeatureFlag<T>(flagName);
 
 function App() {
-	const [myFeatureFlag] = useFeatureFlag('myFeatureFlag') // works
-	const [areYouThere] = useFeatureFlag('areYouThere') // ERROR
-	return <div></div>
+  const [myFeatureFlag] = useFeatureFlag('myFeatureFlag') // works
+  const [areYouThere] = useFeatureFlag('areYouThere') // ERROR
+  return <div></div>
 }
 ```
 

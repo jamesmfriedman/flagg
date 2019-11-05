@@ -16,8 +16,8 @@ import { FlaggProvider } from 'flagg/react';
 const featureFlags = flagg({
   store: sessionStore(),
   definitions: {
-		myFlag: {}
-	}
+    myFlag: {}
+  }
 });
 
 ReactDOM.render(
@@ -36,17 +36,17 @@ The `useFeatureFlag` hook is very similar to Reacts `useState` hook. It provides
 import { useFeatureFlag } from 'flagg/react';
 
 function App() {
-	const [myFlag, setMyFlag] = useFeatureFlag('myFlag);
+  const [myFlag, setMyFlag] = useFeatureFlag('myFlag);
 
-	return (
-		<div>
-			{myFlag ? (
-				<div>The flag is on!</div>
-			): (
-				<div>The flag is off :(</div>
-			)}
-		</div>
-	)
+  return (
+    <div>
+      {myFlag ? (
+        <div>The flag is on!</div>
+      ): (
+        <div>The flag is off :(</div>
+      )}
+    </div>
+  )
 }
 ```
 
@@ -58,14 +58,14 @@ Mount the admin component at the location of your choice. It takes an optional `
 import {FlaggAdmin} from 'flagg/react';
 
 function App() {
-	return (
-		<Switch>
-			<Route path="/" render={() => <Home />}>
-			{process.end.NODE_ENV === 'development' &&
-				<Route path="/feature-flags" render={() => 				<FlaggAdmin onDone={() => history.back()} />
-				}>
-			}
-		</Switch>
-	)
+  return (
+    <Switch>
+      <Route path="/" render={() => <Home />}>
+      {process.end.NODE_ENV === 'development' &&
+        <Route path="/feature-flags" render={() => 				<FlaggAdmin onDone={() => history.back()} />
+        }>
+      }
+    </Switch>
+  )
 }
 ```

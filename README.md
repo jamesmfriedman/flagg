@@ -41,20 +41,20 @@ import {flagg, inMemoryStore} from 'flagg';
 
 // Create your feature flags
 const featureFlags = flagg({
-	store: inMemoryStore(),
-	definitions: {
-		'home.enableV2': {
-			default: false
-		},
-		'developer.debugMode': {
-			default: process.env.NODE_ENV === 'development'
-		},
-	}
+  store: inMemoryStore(),
+  definitions: {
+    'home.enableV2': {
+      default: false
+    },
+    'developer.debugMode': {
+      default: process.env.NODE_ENV === 'development'
+    },
+  }
 });
 
 // Use them!
 if (featureFlags.get('home.enableV2')) {
-	// do something for this feature
+  // do something for this feature
 }
 
 featureFlags.set('developer.debugMode', true);
@@ -71,10 +71,10 @@ Before you dive deeper into the documentation, here are some common scenarios yo
 import {flagg, sessionStore} from 'flagg';
 
 const featureFlags = flagg({
-	store: sessionStore(),
-	definitions: {
-		'myNewFeature' {default: false}
-	}
+  store: sessionStore(),
+  definitions: {
+    'myNewFeature' {default: false}
+  }
 });
 ```
 
@@ -85,10 +85,10 @@ const featureFlags = flagg({
 import {flagg, localStore} from 'flagg';
 
 const featureFlags = flagg({
-	store: localStore(),
-	definitions: {
-		'myNewFeature' {default: false}
-	}
+  store: localStore(),
+  definitions: {
+    'myNewFeature' {default: false}
+  }
 });
 
 // somewhere else in your app
@@ -105,11 +105,11 @@ Example Link: https://example.com?ff={"myNewFeature":true}
 import {flagg, urlStore, sessionStore} from 'flagg';
 
 const featureFlags = flagg({
-	hydrateFrom: urlStore(window.location.search),
-	store: sessionStore(),
-	definitions: {
-		'myNewFeature' {default: false}
-	}
+  hydrateFrom: urlStore(window.location.search),
+  store: sessionStore(),
+  definitions: {
+    'myNewFeature' {default: false}
+  }
 });
 ```
 
@@ -120,19 +120,19 @@ const featureFlags = flagg({
 import {flagg, inMemoryStore} from 'flagg';
 
 const featureFlags = flagg({
-	store: inMemoryStore(),
-	definitions: {
-		'specialCustomerFeature' {default: false}
-	}
+  store: inMemoryStore(),
+  definitions: {
+    'specialCustomerFeature' {default: false}
+  }
 });
 
 fetch('https://my.customer.configuration')
-	.then(res => res.json())
-	.then(res => {
-		// Assuming res is {"specialCustomerFeature": true}
-		featureFlags.set(res);
-		featureFlags.freezeAll();
-	})
+  .then(res => res.json())
+  .then(res => {
+    // Assuming res is {"specialCustomerFeature": true}
+    featureFlags.set(res);
+    featureFlags.freezeAll();
+  })
 ```
 
 - Use Case: I want my CI tool to test multiple code paths based on feature flags.
@@ -144,10 +144,10 @@ import {flagg, sessionStore} from 'flagg';
 process.env['ff.myNewFeature'] = true;
 
 const featureFlags = flagg({
-	store: envStore(process.env),
-	definitions: {
-		'myNewFeature' {default: false}
-	}
+  store: envStore(process.env),
+  definitions: {
+    'myNewFeature' {default: false}
+  }
 });
 ```
 
@@ -179,8 +179,8 @@ Example: `https://example.com?ff={"home.v2":true}`
 import {flagg, urlStore} from 'flagg';
 
 const featureFlags = flagg({
-	store: urlStore(window.location.search),
-	definitions: {...}
+  store: urlStore(window.location.search),
+  definitions: {...}
 });
 ```
 
@@ -193,8 +193,8 @@ Example `process.env['ff.home.v2']`
 import {flagg, envStore} from 'flagg';
 
 const featureFlags = flagg({
-	store: envStore(process.env),
-	definitions: {...}
+  store: envStore(process.env),
+  definitions: {...}
 });
 ```
 
@@ -210,22 +210,22 @@ You can pass multiple stores to the `flagg` init function as well as specify wha
 import {flagg, sessionStore, localStore} from 'flagg';
 
 const featureFlags = flagg({
-	// Enable both the sessionStore and localStore.
-	// sessionStore is the default
-	store: [sessionStore(), localStore()],
-	definitions: {
-		// Tell this feature flag to use localStore which
-		// will let it persist between tabs and browser sessions
-		'home.enableV2': {
-			default: false,
-			store: 'localStore'
-		},
-		// This feature flag will use the default store
-		// which is sessionStore
-		'developer.debugMode': {
-			default: false
-		},
-	}
+  // Enable both the sessionStore and localStore.
+  // sessionStore is the default
+  store: [sessionStore(), localStore()],
+  definitions: {
+    // Tell this feature flag to use localStore which
+    // will let it persist between tabs and browser sessions
+    'home.enableV2': {
+      default: false,
+      store: 'localStore'
+    },
+    // This feature flag will use the default store
+    // which is sessionStore
+    'developer.debugMode': {
+      default: false
+    },
+  }
 });
 ```
 
@@ -241,13 +241,13 @@ This is exactly what hydrateFrom does for you. It will read all available key / 
 import {flagg, urlStore, localStore} from 'flagg';
 
 const featureFlags = flagg({
-	hydrateFrom: urlStore(window.location.search),
-	store: localStore(),
-	definitions: {
-		'home.enableV2': {
-			default: false
-		}
-	}
+  hydrateFrom: urlStore(window.location.search),
+  store: localStore(),
+  definitions: {
+    'home.enableV2': {
+      default: false
+    }
+  }
 });
 ```
 
@@ -260,11 +260,11 @@ Flagg ships with the ability to freeze feature flags. One they're frozen, they'l
 import {flagg, inMemoryStore} from 'flagg';
 
 const featureFlags = flagg({
-	store: inMemoryStore(),
-	definitions: {
-		'specialCustomerFeature' {default: false},
-		'anotherFeature' {default: false}
-	}
+  store: inMemoryStore(),
+  definitions: {
+    'specialCustomerFeature' {default: false},
+    'anotherFeature' {default: false}
+  }
 });
 
 // freeze an individual
@@ -274,13 +274,13 @@ featureFlags.get('anotherFeature'); // still false
 
 // Example fetching remote config
 fetch('https://my.customer.configuration')
-	.then(res => res.json())
-	.then(res => {
-		// Assuming res is {"specialCustomerFeature": true}
-		featureFlags.set(res);
-		// freeze everything
-		featureFlags.freezeAll();
-	})
+  .then(res => res.json())
+  .then(res => {
+    // Assuming res is {"specialCustomerFeature": true}
+    featureFlags.set(res);
+    // freeze everything
+    featureFlags.freezeAll();
+  })
 ```
 
 Another basic aspect of security is to make sure you don't include the Flagg admin in your production builds. This can be done in a variety of ways, but the simplest is making sure to only enable it when `process.env.NODE_ENV === 'development'`
@@ -296,15 +296,15 @@ import {FlaggAdmin} from 'flagg/react';
 import {Route, Switch} from 'react-router';
 
 function App() {
-	return (
-		<Switch>
-			<Route path="/" render={() => <Home />}>
-			{process.end.NODE_ENV === 'development' &&
-				<Route path="/feature-flags" render={() => 				<FlaggAdmin />
-				}>
-			}
-		</Switch>
-	)
+  return (
+    <Switch>
+      <Route path="/" render={() => <Home />}>
+      {process.end.NODE_ENV === 'development' &&
+        <Route path="/feature-flags" render={() => 				<FlaggAdmin />
+        }>
+      }
+    </Switch>
+  )
 }
 ```
 
@@ -355,39 +355,39 @@ ff.get('myFlag')
 
 ```typescript
 interface FlaggInstance {
-	/** Gets a value for a feature flag. */
-	get: (flagName: string) => FlagValue;
-	
-	/** Sets one or many feature flags. */
-	set: (flagName: string, value: FlagValue) => void
-		| ({[flagName: string]: FlagValue}) => void;
-	
-	/** Get the default value for a feature flag. */
-	getDefault: (flagName: string) => FlagValue;
-	
-	/** Checks to see if a feature flag is overridden. */
-	isOverridden: (flagName: string) => boolean;
-	
-	/** Set the definitions after init. */
-	setDefinitions: (definitions: FlagDefinitions) => void;
-	
-	/** Gets the current set  of definitions. */
-	getDefinitions: () => FlagDefinitions;
-	
-	/** Gets all feature flags with their resolved value. */
-	getAllResolved: () => {[flagName: string]: FlagValue};
-	
-	/** Get only the feature flags that are different than their defaults. */
-	getAllOverridden: () => {[flagName: string]: FlagValue};
+  /** Gets a value for a feature flag. */
+  get: (flagName: string) => FlagValue;
+  
+  /** Sets one or many feature flags. */
+  set: (flagName: string, value: FlagValue) => void
+    | ({[flagName: string]: FlagValue}) => void;
+  
+  /** Get the default value for a feature flag. */
+  getDefault: (flagName: string) => FlagValue;
+  
+  /** Checks to see if a feature flag is overridden. */
+  isOverridden: (flagName: string) => boolean;
+  
+  /** Set the definitions after init. */
+  setDefinitions: (definitions: FlagDefinitions) => void;
+  
+  /** Gets the current set  of definitions. */
+  getDefinitions: () => FlagDefinitions;
+  
+  /** Gets all feature flags with their resolved value. */
+  getAllResolved: () => {[flagName: string]: FlagValue};
+  
+  /** Get only the feature flags that are different than their defaults. */
+  getAllOverridden: () => {[flagName: string]: FlagValue};
 
-	/** Freeze a feature flag to prevent further changes. */
-	freeze: (flagName: string) => void;
-	
-	/** Freeze all feature flags. */
-	freezeAll: () => void;
+  /** Freeze a feature flag to prevent further changes. */
+  freeze: (flagName: string) => void;
+  
+  /** Freeze all feature flags. */
+  freezeAll: () => void;
 
-	/** Check if a feature flag is frozen. */
-	isFrozen: (flagName: string) => boolean;
+  /** Check if a feature flag is frozen. */
+  isFrozen: (flagName: string) => boolean;
 }
 ```
 
