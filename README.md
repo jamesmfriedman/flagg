@@ -5,10 +5,10 @@ Declarative Feature Flagging for your Javascript App
 ![Flagg Admin](./flagg.png "Logo Title Text 1")
 
 Features: 
-- Framework Agnostic!
-- Easy to add to your existing codebase
-- Out of the box support for Typescript, React, Redux, and Node
-- Includes an admin that you can use with React or Web Components
+- 🎉 Framework Agnostic!
+- 🚀 Easy to add to your existing codebase
+- ⚡️ Out of the box support for Typescript, React, Redux, and Node
+- ✅ Includes an admin that you can use with React or Web Components
 
 TOC
 - [What For?](#what-for)
