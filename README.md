@@ -161,11 +161,11 @@ A simple key / value store that will be reset on every refresh.
 
 ### `localStore`
 
-Saves feature flag settings to localStore to persist between tabs and browser restarts. All keys in localStorage will be prefixed with `ff`. Browser only.
+Saves feature flag settings to localStorage to persist between tabs and browser restarts. All keys in localStorage will be prefixed with `ff`. Browser only.
 
 ### `sessionStore`
 
-Saves feature flag settings to sessionStore which will only live in the current tab and the current browsing session. All keys in sessionStorage will be prefixed with `ff`. Browser only.
+Saves feature flag settings to sessionStorage which will only live in the current tab and the current browsing session. All keys in sessionStorage will be prefixed with `ff`. Browser only.
 
 ### `urlStore`: Readonly
 
