@@ -1,6 +1,6 @@
 {
   "name": "flagg",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Declarative Feature Flagging for your Javascript App",
   "main": "dist/index.js",
   "homepage": "https://jamesmfriedman.github.io/flagg/",
