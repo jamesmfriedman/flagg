@@ -22,7 +22,7 @@ TOC
 
 # What For?
 
-Flagg gives you a simple, declarative, and extensible way to add feature flags to your javascript app. Feature flags (also known as feature toggles or configuration management) allow you to handle a variety of development and deployment Use Cases that are common when working on production grade apps. Some examples:
+Flagg gives you a simple, declarative, and extensible way to add feature flags to your javascript app. Feature flags (also known as feature toggles or configuration management) allow you to handle a variety of development and deployment use cases that are common when working on production grade apps. Some examples:
 
 - Continuously deploying features that are still in development.
 - New feature opt in "Try out the new home experience"
@@ -139,7 +139,7 @@ fetch('https://my.customer.configuration')
 - Solution: Get your feature flag values using envStore, making sure to prefix them with `ff.`.
 
 ```javascript
-import {flagg, sessionStore} from 'flagg';
+import {flagg, envStore} from 'flagg';
 
 process.env['ff.myNewFeature'] = true;
 
