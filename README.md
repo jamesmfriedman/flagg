@@ -298,8 +298,7 @@ function App() {
     <Switch>
       <Route path="/" render={() => <Home />}>
       {process.end.NODE_ENV === 'development' &&
-        <Route path="/feature-flags" render={() => 				<FlaggAdmin />
-        }>
+        <Route path="/feature-flags" render={() => <FlaggAdmin />}/>
       }
     </Switch>
   )
