@@ -153,7 +153,7 @@ const featureFlags = flagg({
 
 # Stores
 
-There are handful of built in storage mechanisms to support a wide range of Use Cases.
+There are handful of built in storage mechanisms to support a wide range of use cases.
 
 ### `inMemoryStore`
 
