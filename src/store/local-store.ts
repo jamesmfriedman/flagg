@@ -1,7 +1,7 @@
-import { FlaggStorage, FlagValue } from '../core';
+import { FlaggStore, FlagValue } from '../core';
 import { safeParseJSON, getKey, mapFromStoredValuesWithPrefix } from './utils';
 
-export const localStore = (): FlaggStorage => {
+export const localStore = (): FlaggStore => {
   const get = (flagName: string): FlagValue =>
     safeParseJSON(window.localStorage.getItem(getKey(flagName)));
 

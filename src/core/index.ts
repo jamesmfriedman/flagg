@@ -1,36 +1,38 @@
 import {
   FlaggOpts,
-  FlaggStorage,
+  FlaggStore,
   FlagDefinition,
   FlagDefinitions,
   FlagValue,
-  FlaggReadOnlyStorage,
-  FlaggStorageInput
+  FlaggReadOnlyStore,
+  FlaggStoreInput
 } from './defs';
+import { inMemoryStore } from '../store';
 
 export * from './defs';
 
-type ReadOrWriteStorage = FlaggStorage | FlaggReadOnlyStorage;
+type ReadOrWriteStore = FlaggStore | FlaggReadOnlyStore;
 
-const DEFAULT_STORAGE_NAME = '_default';
+const DEFAULT_STORE_NAME = '__default';
+const FROZEN_STORE_NAME = '__frozen';
 
 /** Ensures a value is an array */
 const makeArray = <T>(val: T) =>
   Array.isArray(val) ? (val as T) : !!val ? ([val] as T[]) : [];
 
-/** Takes a single or array of storage items and makes a name -> value map */
-const makeStorageMap = (
-  _storage: FlaggStorageInput
-): { [storageName: string]: ReadOrWriteStorage } => {
-  const storageArr = makeArray(_storage) as ReadOrWriteStorage[];
-  return storageArr.reduce<{
-    [storageName: string]: ReadOrWriteStorage;
+/** Takes a single or array of store items and makes a name -> value map */
+const makeStoreMap = (
+  _store: FlaggStoreInput
+): { [storeName: string]: ReadOrWriteStore } => {
+  const storeArr = makeArray(_store) as ReadOrWriteStore[];
+  return storeArr.reduce<{
+    [storeName: string]: ReadOrWriteStore;
   }>(
-    (acc, storage) => {
-      acc[storage.name] = storage;
+    (acc, store) => {
+      acc[store.name] = store;
       return acc;
     },
-    { [DEFAULT_STORAGE_NAME]: storageArr[0] }
+    { [DEFAULT_STORE_NAME]: storeArr[0], [FROZEN_STORE_NAME]: inMemoryStore() }
   );
 };
 
@@ -38,35 +40,37 @@ const makeStorageMap = (
 const getFlagDefaultValue = ({ flagDef }: { flagDef: FlagDefinition }) =>
   flagDef.default === undefined ? null : flagDef.default;
 
-/** Get the value set for the flag for its storage */
+/** Get the value set for the flag for its store */
 const getFlagValue = ({
   flagDef,
   flagName,
-  storageMap
+  storeMap
 }: {
   flagDef: FlagDefinition;
   flagName: string;
-  storageMap: { [storageName: string]: ReadOrWriteStorage };
+  storeMap: { [storeName: string]: ReadOrWriteStore };
 }) => {
-  const storage = resolveFlagStorage({ flagDef, storageMap });
-  return storage.get(flagName);
+  const store = resolveFlagStore({ flagDef, storeMap });
+  return store.get(flagName);
 };
 
 /** Get the fully resolved flag value taking into account the default fallback */
 const getResolvedFlagValue = ({
+  frozen,
   definitions,
   flagName,
-  storageMap
+  storeMap
 }: {
+  frozen: { [key: string]: true };
   definitions: FlagDefinitions;
   flagName: string;
-  storageMap: { [storageName: string]: ReadOrWriteStorage };
+  storeMap: { [storeName: string]: ReadOrWriteStore };
 }) => {
-  const flagDef = getFlagDef({ definitions, flagName });
-
-  if (!flagDef) {
-    return null;
+  if (flagName in frozen) {
+    return storeMap[FROZEN_STORE_NAME].get(flagName);
   }
+
+  const flagDef = getFlagDef({ definitions, flagName });
 
   const defaultValue = getFlagDefaultValue({
     flagDef
@@ -75,7 +79,7 @@ const getResolvedFlagValue = ({
   const value = getFlagValue({
     flagDef,
     flagName,
-    storageMap
+    storeMap
   });
 
   if (value === undefined || value === null) {
@@ -87,37 +91,44 @@ const getResolvedFlagValue = ({
 
 /** Get the fully resolved flag value taking into account the default fallback */
 const setFlagValue = ({
+  frozen,
   definitions,
   flagName,
   value,
-  storageMap
+  storeMap
 }: {
+  frozen: { [key: string]: true };
   value: FlagValue;
   definitions: FlagDefinitions;
   flagName: string;
-  storageMap: { [storageName: string]: ReadOrWriteStorage };
+  storeMap: { [storeName: string]: ReadOrWriteStore };
 }) => {
+  if (flagName in frozen) {
+    console.warn(`Feature Flag ${flagName} is frozen`);
+    return;
+  }
+
   const flagDef = getFlagDef({ definitions, flagName });
-  const storage = resolveFlagStorage({ flagDef, storageMap });
+  const store = resolveFlagStore({ flagDef, storeMap });
   const defaultValue = getFlagDefaultValue({
     flagDef
   });
 
   if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
     /* istanbul ignore else  */
-    if ('remove' in storage) {
-      storage.remove(flagName);
+    if ('remove' in store) {
+      store.remove(flagName);
     } else {
       console.warn(
-        `Flagg: Attempting to write to readOnly storage ${storage.name}`
+        `Flagg: Attempting to write to readOnly store ${store.name}`
       );
     }
   } else {
-    if ('set' in storage) {
-      storage.set(flagName, value);
+    if ('set' in store) {
+      store.set(flagName, value);
     } else {
       console.warn(
-        `Flagg: Attempting to write to readOnly storage ${storage.name}`
+        `Flagg: Attempting to write to readOnly store ${store.name}`
       );
     }
   }
@@ -130,25 +141,25 @@ const getFlagDef = ({
 }: {
   definitions: FlagDefinitions;
   flagName: string;
-}) => definitions[flagName];
+}) => (flagName in definitions ? definitions[flagName] : {});
 
-/** Get the storage instance for a flag definition */
-const resolveFlagStorage = ({
+/** Get the store instance for a flag definition */
+const resolveFlagStore = ({
   flagDef,
-  storageMap
+  storeMap
 }: {
   flagDef: FlagDefinition;
-  storageMap: { [storageName: string]: ReadOrWriteStorage };
+  storeMap: { [storeName: string]: ReadOrWriteStore };
 }) => {
-  const storageName = flagDef.storage as string;
-  if (storageMap[storageName]) return storageMap[storageName];
+  const storeName = flagDef.store as string;
+  if (storeMap[storeName]) return storeMap[storeName];
 
-  if (storageName !== undefined) {
+  if (storeName !== undefined) {
     console.warn(
-      `Flagg storage "${storageName}" not available. Did you forget to include it? Using default storage instead.`
+      `Flagg store "${storeName}" not available. Did you forget to include it? Using default store instead.`
     );
   }
-  return storageMap[DEFAULT_STORAGE_NAME];
+  return storeMap[DEFAULT_STORE_NAME];
 };
 
 const getFlagType = ({ flagDef }: { flagDef: FlagDefinition }) => {
@@ -165,78 +176,84 @@ const getFlagType = ({ flagDef }: { flagDef: FlagDefinition }) => {
 
 /** Create a new feature flags store with Flagg. */
 export const flagg = <FFKeys extends string>({
-  storage,
-  definitions: _definitions = {},
+  store,
+  definitions = {},
   hydrateFrom
 }: FlaggOpts) => {
-  let definitions = _definitions;
-  const storageMap = makeStorageMap(storage);
-  const hydrateFromStorages = makeArray(
-    hydrateFrom
-  ) as FlaggReadOnlyStorage[];
+  const state: {
+    frozen: { [key: string]: true };
+    definitions: FlagDefinitions;
+    storeMap: { [storeName: string]: ReadOrWriteStore };
+  } = {
+    definitions,
+    frozen: {},
+    storeMap: makeStoreMap(store)
+  };
+
+  const hydrateFromStores = makeArray(hydrateFrom) as FlaggReadOnlyStore[];
 
   const hydrate = () => {
-    hydrateFromStorages.forEach(async hydrateStorage => {
-      const values = await hydrateStorage.all();
+    hydrateFromStores.forEach(async hydrateStore => {
+      const values = await hydrateStore.all();
       set(values as Partial<{ [key in FFKeys]: FlagValue }>);
     });
   };
 
   const get = (flagName: FFKeys): FlagValue =>
     getResolvedFlagValue({
-      definitions,
+      frozen: state.frozen,
+      definitions: state.definitions,
       flagName: String(flagName),
-      storageMap
+      storeMap: state.storeMap
     });
 
   const getDefault = (flagName: FFKeys): FlagValue =>
     getFlagDefaultValue({
-      flagDef: getFlagDef({ definitions, flagName })
+      flagDef: getFlagDef({ definitions: state.definitions, flagName })
     });
-
-  const isOn = (flagName: FFKeys): boolean => !!get(flagName);
 
   const set = (
     flagNameOrFlags: FFKeys | Partial<{ [key in FFKeys]: FlagValue }>,
     value?: FlagValue
   ) => {
     if (typeof flagNameOrFlags === 'string') {
-      value !== undefined &&
-        setFlagValue({
-          value,
-          definitions,
-          flagName: String(flagNameOrFlags),
-          storageMap
-        });
+      setFlagValue({
+        frozen: state.frozen,
+        value: value as FlagValue,
+        definitions: state.definitions,
+        flagName: String(flagNameOrFlags),
+        storeMap: state.storeMap
+      });
     } else {
       Object.entries(flagNameOrFlags).forEach(([flagName, value]) => {
         setFlagValue({
+          frozen: state.frozen,
           value: value as FlagValue,
-          definitions,
+          definitions: state.definitions,
           flagName: String(flagName),
-          storageMap
+          storeMap: state.storeMap
         });
       });
     }
   };
 
   const isOverridden = (flagName: FFKeys) => {
-    const flagDef = getFlagDef({ flagName, definitions });
+    const flagDef = getFlagDef({ flagName, definitions: state.definitions });
     const type = getFlagType({ flagDef });
     return type === 'boolean'
-      ? isOn(flagName) !== !!getDefault(flagName)
+      ? !!get(flagName) !== !!getDefault(flagName)
       : get(flagName) !== getDefault(flagName);
   };
 
-  const setDefinitions = (newDefinitions: FlagDefinitions) => {
-    definitions = newDefinitions;
+  const setDefinitions = (definitions: FlagDefinitions) => {
+    state.definitions = definitions;
     hydrate();
   };
 
-  const getDefinitions = () => definitions;
+  const getDefinitions = () => state.definitions;
 
   const getAllResolved = () => {
-    return Object.keys(definitions).reduce<
+    return Object.keys(state.definitions).reduce<
       Partial<{ [key in FFKeys]: FlagValue }>
     >((acc, flagName) => {
       acc[flagName as FFKeys] = get(flagName as FFKeys);
@@ -245,7 +262,7 @@ export const flagg = <FFKeys extends string>({
   };
 
   const getAllOverridden = () => {
-    return Object.keys(definitions).reduce<
+    return Object.keys(state.definitions).reduce<
       Partial<{ [key in FFKeys]: FlagValue }>
     >((acc, flagName) => {
       if (isOverridden(flagName as FFKeys)) {
@@ -255,18 +272,47 @@ export const flagg = <FFKeys extends string>({
     }, {});
   };
 
+  const freeze = (flagName: FFKeys) => {
+    (state.storeMap[FROZEN_STORE_NAME] as FlaggStore).set(
+      flagName,
+      get(flagName)
+    );
+    state.frozen[flagName] = true;
+  };
+
+  const freezeAll = () => {
+    Object.keys(state.definitions).forEach(flagName =>
+      freeze(flagName as FFKeys)
+    );
+  };
+
+  const isFrozen = (flagName: FFKeys) => !!state.frozen[flagName];
+
   hydrate();
 
   return {
-    isOn,
+    /** Gets a value for a feature flag. */
     get,
+    /** Sets one or many feature flags. */
     set,
+    /** Get the default value for a feature flag. */
     getDefault,
+    /** Checks to see if a feature flag is overridden. */
     isOverridden,
+    /** Set the definitions after init. */
     setDefinitions,
+    /** Gets the current set  of definitions. */
     getDefinitions,
+    /** Gets all feature flags with their resolved value. */
     getAllResolved,
-    getAllOverridden
+    /** Get only the feature flags that are different than their defaults. */
+    getAllOverridden,
+    /** Freeze a feature flag to prevent further changes. */
+    freeze,
+    /** Freeze all feature flags. */
+    freezeAll,
+    /** Check if a feature flag is frozen. */
+    isFrozen
   };
 };
 

@@ -1,7 +1,4 @@
-import {
-  useFeatureFlag as ffUseFeatureFlag,
-  useFeatureValue as ffUseFeatureValue
-} from 'flagg/react';
+import { useFeatureFlag as ffUseFeatureFlag } from 'flagg/react';
 import { FlagValue } from 'flagg';
 
 export const definitions = {
@@ -35,8 +32,6 @@ export const definitions = {
   }
 };
 
-export const useFeatureFlag = (flagName: keyof typeof definitions) =>
-  ffUseFeatureFlag(flagName);
-export const useFeatureValue = <T extends FlagValue>(
+export const useFeatureFlag = <T extends FlagValue>(
   flagName: keyof typeof definitions
-) => ffUseFeatureValue<T>(flagName);
+) => ffUseFeatureFlag<T>(flagName);

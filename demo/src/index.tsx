@@ -9,9 +9,11 @@ import { flagg, sessionStore } from './flagg';
 import { FlaggProvider } from './flagg/react';
 
 const featureFlags = flagg<keyof typeof definitions>({
-  storage: sessionStore(),
+  store: sessionStore(),
   definitions
 });
+
+featureFlags.freeze('developer.enableFlagg');
 
 ReactDOM.render(
   <FlaggProvider featureFlags={featureFlags}>

@@ -17,7 +17,7 @@ import {
 } from 'rmwc';
 import { Home } from './home';
 import { HomeNew } from './home-new';
-import { useFeatureFlag, useFeatureValue } from '../feature-flags';
+import { useFeatureFlag } from '../feature-flags';
 import { FlaggAdmin } from 'flagg/react';
 
 export function Demo() {
@@ -25,8 +25,8 @@ export function Demo() {
   const [navOpen, setNavOpen] = useState(false);
 
   const [isDarkMode] = useFeatureFlag('app.darkMode');
-  const [title] = useFeatureValue<string>('app.title');
-  const [brandColor] = useFeatureValue<string>('app.brandColor');
+  const [title] = useFeatureFlag<string>('app.title');
+  const [brandColor] = useFeatureFlag<string>('app.brandColor');
   const [isBottomNav] = useFeatureFlag('app.bottomNav');
   const [homeV2] = useFeatureFlag('home.v2');
   const [enableFlagg] = useFeatureFlag('developer.enableFlagg');
@@ -116,7 +116,7 @@ function AppDrawer({
   setRoute: (route: string) => void;
 }) {
   const [enableFlagg] = useFeatureFlag('developer.enableFlagg');
-  const [title] = useFeatureValue('app.title');
+  const [title] = useFeatureFlag('app.title');
 
   return (
     <Drawer modal open={open} onClose={() => setOpen(false)}>

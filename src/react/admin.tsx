@@ -92,7 +92,7 @@ export function FlaggAdmin({ onDone }: { onDone?: () => void }) {
 function Footer() {
   return (
     <div className="flagg-footer">
-      Made with ❤️in Sunny FL &middot;{' '}
+      Made with ❤️ in Sunny FL &middot;{' '}
       <a href="https://github.com/jamesmfriedman/flagg">Visit Github</a>
     </div>
   );
@@ -107,7 +107,9 @@ const iconPaths = {
   checkCircle:
     'M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z',
   link:
-    'M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z'
+    'M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z',
+  snowflake:
+    'M20.79,13.95L18.46,14.57L16.46,13.44V10.56L18.46,9.43L20.79,10.05L21.31,8.12L19.54,7.65L20,5.88L18.07,5.36L17.45,7.69L15.45,8.82L13,7.38V5.12L14.71,3.41L13.29,2L12,3.29L10.71,2L9.29,3.41L11,5.12V7.38L8.5,8.82L6.5,7.69L5.92,5.36L4,5.88L4.47,7.65L2.7,8.12L3.22,10.05L5.55,9.43L7.55,10.56V13.45L5.55,14.58L3.22,13.96L2.7,15.89L4.47,16.36L4,18.12L5.93,18.64L6.55,16.31L8.55,15.18L11,16.62V18.88L9.29,20.59L10.71,22L12,20.71L13.29,22L14.7,20.59L13,18.88V16.62L15.5,15.17L17.5,16.3L18.12,18.63L20,18.12L19.53,16.35L21.3,15.88L20.79,13.95M9.5,10.56L12,9.11L14.5,10.56V13.44L12,14.89L9.5,13.44V10.56Z'
 };
 
 function Icon({
@@ -144,6 +146,7 @@ function Flag({
   let control = null;
   const controlType = getControlType(definition);
   const isOverride = ff.isOverridden(flagName);
+  const isFrozen = ff.isFrozen(flagName);
 
   switch (controlType) {
     case 'select':
@@ -167,25 +170,38 @@ function Flag({
       break;
     case 'toggle':
     default:
-      control = <Toggle checked={ff.isOn(flagName)} onChange={() => {}} />;
+      control = <Toggle checked={!!ff.get(flagName)} onChange={() => {}} />;
   }
 
   return (
     <div
       key={flagName}
-      className="flagg-flag"
+      className={[
+        'flagg-flag',
+        isOverride && 'flagg-flag--override',
+        isFrozen && 'flagg-flag--frozen'
+      ]
+        .filter(Boolean)
+        .join(' ')}
       onClick={
         controlType === 'toggle'
           ? () => ff.set(flagName, !ff.get(flagName))
           : undefined
       }
     >
+      {isFrozen && <Icon icon="snowflake" />}
+      {!isFrozen && (
+        <Icon
+          icon="flag"
+          onClick={evt => {
+            evt.stopPropagation();
+            ff.set(flagName, ff.getDefault(flagName));
+          }}
+        />
+      )}
+
       <div>
         <div className="flagg-flag__name">
-          {/* <span className="flagg-flag__category-name">
-            {categoryName}
-            {!!categoryName && '.'}
-          </span> */}
           <span className="flagg-flag__flag-name">{name}</span>
         </div>
         {!!definition.description && (
@@ -196,20 +212,8 @@ function Flag({
       </div>
       <div
         title={flagName + ' - Default: ' + String(ff.getDefault(flagName))}
-        className={[
-          'flagg-control',
-          isOverride && 'flagg-control--override'
-        ]
-          .filter(Boolean)
-          .join(' ')}
+        className={['flagg-control'].filter(Boolean).join(' ')}
       >
-        <Icon
-          icon="flag"
-          onClick={evt => {
-            evt.stopPropagation();
-            ff.set(flagName, ff.getDefault(flagName));
-          }}
-        />{' '}
         {control}
       </div>
     </div>

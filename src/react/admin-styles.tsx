@@ -94,12 +94,12 @@ export default /* css */ `
 }
 
 .flagg-categories {
-	padding: 0 1rem;
+	padding: 0 0.5rem;
 	flex: 1;
 }
 
 .flagg-category {
-	padding: 1rem;
+	padding: 1rem 1rem 1rem 2.5rem;
 	box-shadow: 0 8px 24px rgba(0,0,0,.033);
 	border-radius: 0.75rem;
 	max-width: 50rem;
@@ -115,18 +115,24 @@ export default /* css */ `
 	justify-content: flex-end;
 }
 
-.flagg-control .flagg-flag-icon {
+.flagg-snowflake-icon {
+	color: deepskyblue;
+}
+
+.flagg-flag .flagg-flag-icon, .flagg-flag .flagg-snowflake-icon {
 	transition: 0.2s;
 	opacity: 0;
 	transform: scale(0);	
+	position: absolute;
+	left: 0.6rem;
 }
 
-.flagg-control--override .flagg-flag-icon {
+.flagg-flag--override .flagg-flag-icon, .flagg-flag--frozen .flagg-snowflake-icon {
 	opacity: 1;
-	transform: scale(1);
+	transform: scale(0.85);
 }
 
-.flagg-control--override .flagg-flag-icon:hover {
+.flagg-control--override .flagg-flag-icon:hover, .flagg-control--override .flagg-snowflake-icon:hover {
 	cursor: pointer;
 	
 }
@@ -170,9 +176,10 @@ export default /* css */ `
 	align-items: center;
 	justify-content: space-between;
 	font-size: 1.25rem;
-	margin: 0 -1rem;
-	padding: 0.75rem 1rem;
+	margin: 0 -1rem 0 -2.5rem;
+	padding: 0.75rem 1rem 0.75rem 2.5rem;
 	cursor: pointer;
+	position: relative;
 }
 
 .flagg-flag > div:first-child {
