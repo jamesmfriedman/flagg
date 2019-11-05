@@ -155,8 +155,6 @@ const featureFlags = flagg({
 
 There are handful of built in storage mechanisms to support a wide range of Use Cases.
 
-## Built in Stores
-
 ### `inMemoryStore`
 
 A simple key / value store that will be reset on every refresh.
