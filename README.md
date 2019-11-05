@@ -198,7 +198,7 @@ const featureFlags = flagg({
 
 ### Custom Stores
 
-Don't see one you for you? Follow this: Writing your own custom store.
+Don't see one you for you? Follow this guide: [Writing your own custom store](./README_STORE.md).
 
 ## Specifying Stores
 
