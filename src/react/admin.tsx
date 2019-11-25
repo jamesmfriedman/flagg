@@ -278,8 +278,8 @@ const getSortedDefinitions = (
 
     const shouldAdd =
       !searchTerm ||
-      (flagName.toLowerCase().includes(searchTerm) ||
-        (flagDef.description || '').toLowerCase().includes(searchTerm));
+      flagName.toLowerCase().includes(searchTerm) ||
+      (flagDef.description || '').toLowerCase().includes(searchTerm);
 
     shouldAdd &&
       acc[category].push({

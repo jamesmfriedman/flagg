@@ -6,15 +6,15 @@ import {
   FlagValue,
   FlaggReadOnlyStore,
   FlaggStoreInput
-} from "./defs";
-import { inMemoryStore } from "../store";
+} from './defs';
+import { inMemoryStore } from '../store';
 
-export * from "./defs";
+export * from './defs';
 
 type ReadOrWriteStore = FlaggStore | FlaggReadOnlyStore;
 
-const DEFAULT_STORE_NAME = "__default";
-const FROZEN_STORE_NAME = "__frozen";
+const DEFAULT_STORE_NAME = '__default';
+const FROZEN_STORE_NAME = '__frozen';
 
 /** Ensures a value is an array */
 const makeArray = <T>(val: T) =>
@@ -116,7 +116,7 @@ const setFlagValue = ({
 
   if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
     /* istanbul ignore else  */
-    if ("remove" in store) {
+    if ('remove' in store) {
       store.remove(flagName);
     } else {
       console.warn(
@@ -124,7 +124,7 @@ const setFlagValue = ({
       );
     }
   } else {
-    if ("set" in store) {
+    if ('set' in store) {
       store.set(flagName, value);
     } else {
       console.warn(
@@ -164,14 +164,14 @@ const resolveFlagStore = ({
 
 const getFlagType = ({ flagDef }: { flagDef: FlagDefinition }) => {
   if (flagDef.options) {
-    return "select";
+    return 'select';
   }
 
-  if (typeof flagDef.default === "string") {
-    return "string";
+  if (typeof flagDef.default === 'string') {
+    return 'string';
   }
 
-  return "boolean";
+  return 'boolean';
 };
 
 /** Create a new feature flags store with Flagg. */
@@ -218,7 +218,7 @@ export const flagg = <FFKeys extends string>({
     flagNameOrFlags: FFKeys | Partial<{ [key in FFKeys]: FlagValue }>,
     value?: FlagValue
   ) => {
-    if (typeof flagNameOrFlags === "string") {
+    if (typeof flagNameOrFlags === 'string') {
       setFlagValue({
         frozen: state.frozen,
         value: value as FlagValue,
@@ -242,7 +242,7 @@ export const flagg = <FFKeys extends string>({
   const isOverridden = (flagName: FFKeys) => {
     const flagDef = getFlagDef({ flagName, definitions: state.definitions });
     const type = getFlagType({ flagDef });
-    return type === "boolean"
+    return type === 'boolean'
       ? !!get(flagName) !== !!getDefault(flagName)
       : get(flagName) !== getDefault(flagName);
   };
