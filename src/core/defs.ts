@@ -39,6 +39,4 @@ export interface FlaggOpts {
   store: FlaggStoreInput;
   /** Feature flag definitions. */
   definitions?: FlagDefinitions;
-  /** One or more stores to hydrate from. See the docs on Stores. */
-  hydrateFrom?: FlaggReadOnlyStore | Array<FlaggReadOnlyStore>;
 }

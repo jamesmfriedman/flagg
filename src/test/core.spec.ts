@@ -1,54 +1,54 @@
-import { flagg } from '../core';
+import { flagg } from "../core";
 
-import { localStore } from '../store/local-store';
-import { inMemoryStore } from '../store/in-memory-store';
-import { sessionStore } from '../store/session-store';
-import { safeParseJSON } from '../store/utils';
-import { urlStore } from '../store/url-store';
-import { envStore } from '../store/env-store';
+import { localStore } from "../store/local-store";
+import { inMemoryStore } from "../store/in-memory-store";
+import { sessionStore } from "../store/session-store";
+import { safeParseJSON } from "../store/utils";
+import { urlStore } from "../store/url-store";
+import { envStore } from "../store/env-store";
 
 const definitions = {
   testFlag: {},
-  'testFlag.withDefault': {
-    default: 'hello world'
+  "testFlag.withDefault": {
+    default: "hello world"
   },
-  'testFlag.withDefaultArray': {
-    default: ['a', 'b', 'c']
+  "testFlag.withDefaultArray": {
+    default: ["a", "b", "c"]
   },
-  'testFlag.withDefaultObject': {
+  "testFlag.withDefaultObject": {
     default: {
       a: true,
       b: true,
       c: true
     }
   },
-  'testFlag.withSpecificStore': {
-    store: 'localStore'
+  "testFlag.withSpecificStore": {
+    store: "localStore"
   }
 };
 
 const stores = [localStore(), inMemoryStore(), sessionStore()];
 
-process.env['ff.testFlag'] = 'ENV_VALUE';
+process.env["ff.testFlag"] = "ENV_VALUE";
 
-describe('Flagg Core', () => {
+describe("Flagg Core", () => {
   afterEach(() => {
     window.localStorage.clear();
     window.sessionStorage.clear();
   });
 
-  it('get: default', () => {
+  it("get: default", () => {
     for (const store of stores) {
       const ff = flagg<keyof typeof definitions>({
         definitions,
         store
       });
 
-      expect(ff.getDefault('testFlag.withDefault')).toBe('hello world');
+      expect(ff.getDefault("testFlag.withDefault")).toBe("hello world");
     }
   });
 
-  it('get: definitions', () => {
+  it("get: definitions", () => {
     for (const store of stores) {
       const ff = flagg<keyof typeof definitions>({
         definitions,
@@ -59,94 +59,94 @@ describe('Flagg Core', () => {
     }
   });
 
-  it('get: non existent', () => {
+  it("get: non existent", () => {
     for (const store of stores) {
       const ff = flagg<keyof typeof definitions>({
         definitions,
         store
       });
 
-      expect(ff.get('foo' as any)).toBe(null);
+      expect(ff.get("foo" as any)).toBe(null);
     }
   });
 
-  it('get: no default', () => {
+  it("get: no default", () => {
     for (const store of stores) {
       const ff = flagg<keyof typeof definitions>({
         definitions,
         store
       });
 
-      expect(ff.get('testFlag')).toBe(null);
+      expect(ff.get("testFlag")).toBe(null);
     }
   });
 
-  it('get: with default', () => {
+  it("get: with default", () => {
     for (const store of stores) {
       const ff = flagg<keyof typeof definitions>({
         definitions,
         store
       });
 
-      expect(ff.get('testFlag.withDefault')).toBe('hello world');
+      expect(ff.get("testFlag.withDefault")).toBe("hello world");
     }
   });
 
-  it('getAllOverridden', () => {
+  it("getAllOverridden", () => {
     for (const store of stores) {
       const ff = flagg({
         definitions: {
           one: {
-            default: 'one'
+            default: "one"
           },
           two: {
-            default: 'two'
+            default: "two"
           }
         },
         store
       });
 
-      ff.set('one', 'foo');
+      ff.set("one", "foo");
 
-      expect(ff.getAllOverridden()).toEqual({ one: 'foo' });
+      expect(ff.getAllOverridden()).toEqual({ one: "foo" });
     }
   });
 
-  it('getAllResolved', () => {
+  it("getAllResolved", () => {
     for (const store of stores) {
       const ff = flagg({
         definitions: {
           one: {
-            default: 'one'
+            default: "one"
           },
           two: {
-            default: 'two'
+            default: "two"
           }
         },
         store
       });
 
-      ff.set('one', 'foo');
+      ff.set("one", "foo");
 
-      expect(ff.getAllResolved()).toEqual({ one: 'foo', two: 'two' });
+      expect(ff.getAllResolved()).toEqual({ one: "foo", two: "two" });
     }
   });
 
-  it('set', () => {
+  it("set", () => {
     for (const store of stores) {
       const ff = flagg<keyof typeof definitions>({
         definitions,
         store
       });
 
-      ff.set('testFlag', 'I SET THIS');
-      expect(ff.get('testFlag')).toBe('I SET THIS');
+      ff.set("testFlag", "I SET THIS");
+      expect(ff.get("testFlag")).toBe("I SET THIS");
 
-      ff.set('testFlag.withDefault', 'hello world');
+      ff.set("testFlag.withDefault", "hello world");
     }
   });
 
-  it('set many at once', () => {
+  it("set many at once", () => {
     for (const store of stores) {
       const ff = flagg<keyof typeof definitions>({
         definitions,
@@ -154,50 +154,50 @@ describe('Flagg Core', () => {
       });
 
       ff.set({
-        testFlag: 'Multiple 1',
-        'testFlag.withDefault': 'Multiple 2'
+        testFlag: "Multiple 1",
+        "testFlag.withDefault": "Multiple 2"
       });
 
-      expect(ff.get('testFlag')).toBe('Multiple 1');
-      expect(ff.get('testFlag.withDefault')).toBe('Multiple 2');
+      expect(ff.get("testFlag")).toBe("Multiple 1");
+      expect(ff.get("testFlag.withDefault")).toBe("Multiple 2");
     }
   });
 
-  it('handles arrays', () => {
+  it("handles arrays", () => {
     for (const store of stores) {
       const ff = flagg<keyof typeof definitions>({
         definitions,
         store
       });
 
-      expect(ff.get('testFlag.withDefaultArray')).toEqual(['a', 'b', 'c']);
+      expect(ff.get("testFlag.withDefaultArray")).toEqual(["a", "b", "c"]);
 
-      ff.set('testFlag.withDefaultArray', ['d', 'e', 'f']);
+      ff.set("testFlag.withDefaultArray", ["d", "e", "f"]);
 
-      expect(ff.get('testFlag.withDefaultArray')).toEqual(['d', 'e', 'f']);
+      expect(ff.get("testFlag.withDefaultArray")).toEqual(["d", "e", "f"]);
     }
   });
 
-  it('handles objects', () => {
+  it("handles objects", () => {
     for (const store of stores) {
       const ff = flagg<keyof typeof definitions>({
         definitions,
         store
       });
 
-      expect(ff.get('testFlag.withDefaultObject')).toEqual({
+      expect(ff.get("testFlag.withDefaultObject")).toEqual({
         a: true,
         b: true,
         c: true
       });
 
-      ff.set('testFlag.withDefaultObject', {
+      ff.set("testFlag.withDefaultObject", {
         a: false,
         b: false,
         c: false
       });
 
-      expect(ff.get('testFlag.withDefaultObject')).toEqual({
+      expect(ff.get("testFlag.withDefaultObject")).toEqual({
         a: false,
         b: false,
         c: false
@@ -205,11 +205,11 @@ describe('Flagg Core', () => {
     }
   });
 
-  it('store all() works', () => {
+  it("store all() works", () => {
     [
       inMemoryStore(),
       envStore({}),
-      urlStore(''),
+      urlStore(""),
       localStore(),
       sessionStore()
     ].forEach(store => {
@@ -217,83 +217,86 @@ describe('Flagg Core', () => {
     });
   });
 
-  it('specific store: missing store returns default store', () => {
+  it("specific store: missing store returns default store", () => {
     const ff = flagg<keyof typeof definitions>({
       definitions,
       store: [inMemoryStore(), sessionStore()]
     });
 
-    const spyWarn = jest.spyOn(console, 'warn');
-    ff.get('testFlag.withSpecificStore');
+    const spyWarn = jest.spyOn(console, "warn");
+    ff.get("testFlag.withSpecificStore");
     expect(spyWarn).toHaveBeenCalled();
     spyWarn.mockReset();
   });
 
-  it('specific store: works', () => {
+  it("specific store: works", () => {
     const ff = flagg<keyof typeof definitions>({
       definitions,
       store: [inMemoryStore(), localStore()]
     });
 
-    ff.set('testFlag.withSpecificStore', 'myStore');
-    expect(ff.get('testFlag.withSpecificStore')).toBe('myStore');
+    ff.set("testFlag.withSpecificStore", "myStore");
+    expect(ff.get("testFlag.withSpecificStore")).toBe("myStore");
   });
 
-  it('urlStore: works', () => {
+  it("urlStore: works", () => {
     const ff = flagg<keyof typeof definitions>({
       definitions,
-      store: urlStore('?ff={%22testFlag%22:%22urlIsWorking%22}&anotherVar=foo'),
-      hydrateFrom: urlStore(
-        '?ff={%22testFlag%22:%22urlIsWorking%22}&anotherVar=foo'
-      )
+      store: urlStore("?ff={%22testFlag%22:%22urlIsWorking%22}&anotherVar=foo")
     });
-    expect(ff.get('testFlag')).toBe('urlIsWorking');
-    expect(ff.get('testFlag.withDefault')).toBe('hello world');
-    expect(ff.get('na' as any)).toBe(null);
+
+    ff.hydrateFrom(
+      urlStore("?ff={%22testFlag%22:%22urlIsWorking%22}&anotherVar=foo")
+    );
+    expect(ff.get("testFlag")).toBe("urlIsWorking");
+    expect(ff.get("testFlag.withDefault")).toBe("hello world");
+    expect(ff.get("na" as any)).toBe(null);
   });
 
-  it('urlStore: has fallback', () => {
+  it("urlStore: has fallback", () => {
     const ff = flagg<keyof typeof definitions>({
       definitions,
-      hydrateFrom: urlStore(''),
       store: inMemoryStore()
     });
 
-    expect(ff.get('testFlag')).toBe(null);
+    ff.hydrateFrom(urlStore(""));
+
+    expect(ff.get("testFlag")).toBe(null);
   });
 
-  it('envStore: works', () => {
+  it("envStore: works", () => {
     const ff = flagg<keyof typeof definitions>({
       definitions,
-      hydrateFrom: envStore(process.env as any),
-      store: envStore(process.env as any)
+      store: envStore(process.env)
     });
-    expect(ff.get('testFlag')).toBe('ENV_VALUE');
-    expect(ff.get('testFlag.withDefault')).toBe('hello world');
-    expect(ff.get('na' as any)).toBe(null);
+
+    ff.hydrateFrom(envStore(process.env as any));
+    expect(ff.get("testFlag")).toBe("ENV_VALUE");
+    expect(ff.get("testFlag.withDefault")).toBe("hello world");
+    expect(ff.get("na" as any)).toBe(null);
   });
 
-  it('safeParseJSON', () => {
+  it("safeParseJSON", () => {
     expect(safeParseJSON(null)).toBe(null);
-    expect(safeParseJSON('{')).toBe('{');
+    expect(safeParseJSON("{")).toBe("{");
   });
 
-  it('lets definitions be set asynchronously', done => {
+  it("lets definitions be set asynchronously", done => {
     const ff = flagg<keyof typeof definitions>({
       store: inMemoryStore()
     });
 
-    expect(ff.get('testFlag.withDefault')).toBe(null);
+    expect(ff.get("testFlag.withDefault")).toBe(null);
 
     // faking async
     setTimeout(() => {
       ff.setDefinitions(definitions);
-      expect(ff.get('testFlag.withDefault')).toBe('hello world');
+      expect(ff.get("testFlag.withDefault")).toBe("hello world");
       done();
     }, 100);
   });
 
-  it('isOverridden', () => {
+  it("isOverridden", () => {
     for (const store of stores) {
       const ff = flagg({
         definitions: {
@@ -301,56 +304,56 @@ describe('Flagg Core', () => {
             default: false
           },
           two: {
-            default: 'hello'
+            default: "hello"
           },
           three: {
-            default: 'hello',
-            options: ['hello', 'there']
+            default: "hello",
+            options: ["hello", "there"]
           }
         },
         store
       });
-      ff.set('one', true);
-      ff.set('two', 'foo');
-      ff.set('three', 'there');
+      ff.set("one", true);
+      ff.set("two", "foo");
+      ff.set("three", "there");
 
-      expect(ff.isOverridden('one')).toBe(true);
-      expect(ff.isOverridden('two')).toBe(true);
-      expect(ff.isOverridden('three')).toBe(true);
+      expect(ff.isOverridden("one")).toBe(true);
+      expect(ff.isOverridden("two")).toBe(true);
+      expect(ff.isOverridden("three")).toBe(true);
     }
   });
 
-  it('can freeze', () => {
+  it("can freeze", () => {
     const ff = flagg<keyof typeof definitions>({
       definitions,
       store: inMemoryStore()
     });
 
-    const spyWarn = jest.spyOn(console, 'warn');
+    const spyWarn = jest.spyOn(console, "warn");
 
-    ff.set('testFlag', true);
-    ff.freeze('testFlag');
-    expect(ff.get('testFlag')).toBe(true);
-    expect(ff.isFrozen('testFlag')).toBe(true);
-    ff.set('testFlag', false);
-    expect(ff.get('testFlag')).toBe(true);
+    ff.set("testFlag", true);
+    ff.freeze("testFlag");
+    expect(ff.get("testFlag")).toBe(true);
+    expect(ff.isFrozen("testFlag")).toBe(true);
+    ff.set("testFlag", false);
+    expect(ff.get("testFlag")).toBe(true);
 
     expect(spyWarn).toHaveBeenCalled();
   });
 
-  it('can freezeAll', () => {
+  it("can freezeAll", () => {
     const ff = flagg<keyof typeof definitions>({
       definitions,
       store: inMemoryStore()
     });
 
-    const spyWarn = jest.spyOn(console, 'warn');
+    const spyWarn = jest.spyOn(console, "warn");
 
-    ff.set('testFlag', true);
+    ff.set("testFlag", true);
     ff.freezeAll();
-    expect(ff.get('testFlag')).toBe(true);
-    ff.set('testFlag', false);
-    expect(ff.get('testFlag')).toBe(true);
+    expect(ff.get("testFlag")).toBe(true);
+    ff.set("testFlag", false);
+    expect(ff.get("testFlag")).toBe(true);
 
     expect(spyWarn).toHaveBeenCalled();
   });

@@ -105,12 +105,13 @@ Example Link: https://example.com?ff={"myNewFeature":true}
 import {flagg, urlStore, sessionStore} from 'flagg';
 
 const featureFlags = flagg({
-  hydrateFrom: urlStore(window.location.search),
   store: sessionStore(),
   definitions: {
     'myNewFeature' {default: false}
   }
 });
+
+featureFlags.hydrateFrom(urlStore(window.location.search))
 ```
 
 - Use Case: I want to enable features for a specific customer and lock it down
@@ -239,7 +240,6 @@ This is exactly what hydrateFrom does for you. It will read all available key / 
 import {flagg, urlStore, localStore} from 'flagg';
 
 const featureFlags = flagg({
-  hydrateFrom: urlStore(window.location.search),
   store: localStore(),
   definitions: {
     'home.enableV2': {
@@ -247,6 +247,8 @@ const featureFlags = flagg({
     }
   }
 });
+// assuming example url https://example.com?ff={"home.enableV2":true}
+featureFlags.hydrateFrom(urlStore(window.location.search))
 ```
 
 # Security
@@ -315,8 +317,6 @@ flagg({
   store: Store | Store[];
   /** Feature flag definitions. */
   definitions?: FlagDefinitions;
-  /** One or more stores to hydrate from. See the docs on Stores. */
-  hydrateFrom?: Store | Store[];
 });
 ```
 
@@ -358,13 +358,16 @@ interface FlaggInstance {
   /** Sets one or many feature flags. */
   set: (flagName: string, value: FlagValue) => void
     | ({[flagName: string]: FlagValue}) => void;
-  
+
   /** Get the default value for a feature flag. */
   getDefault: (flagName: string) => FlagValue;
   
   /** Checks to see if a feature flag is overridden. */
   isOverridden: (flagName: string) => boolean;
   
+  /** Allows you to hydrate from one or more stores. See the docs on Stores. */
+  hydrateFrom: (storesToHydrateFrom: Store | Store[]) => void;
+
   /** Set the definitions after init. */
   setDefinitions: (definitions: FlagDefinitions) => void;
   
