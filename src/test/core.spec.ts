@@ -31,9 +31,9 @@ const definitions = {
 
 const stores = [localStore(), inMemoryStore(), sessionStore()];
 
-// process.env['ff.testFlag'] = 'ENV_VALUE';
+process.env['ff.testFlag'] = 'ENV_VALUE';
 process.env['ff.falseFlag'] = 'false';
-// process.env['ff.trueFlag'] = 'true';
+process.env['ff.trueFlag'] = 'true';
 
 describe('Flagg Core', () => {
   afterEach(() => {
@@ -275,9 +275,9 @@ describe('Flagg Core', () => {
     });
 
     ff.hydrateFrom(envStore(process.env as any));
-    // expect(ff.get('testFlag')).toBe('ENV_VALUE');
+    expect(ff.get('testFlag')).toBe('ENV_VALUE');
     expect(ff.get('falseFlag')).toBe(false);
-    // expect(ff.get('trueFlag')).toBe(true);
+    expect(ff.get('trueFlag')).toBe(true);
     expect(ff.get('testFlag.withDefault')).toBe('hello world');
     expect(ff.get('na' as any)).toBe(null);
   });
