@@ -9,7 +9,7 @@ export interface FlagDefinition {
   /** A default value for your feature flag. */
   default?: FlagValue;
   /** An array of options to present as a dropdown in the admin. */
-  options?: string[];
+  options?: (string | boolean)[];
 }
 
 export interface FlagDefinitions {
