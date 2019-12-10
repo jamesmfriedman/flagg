@@ -2,7 +2,7 @@
 
 Declarative Feature Flagging for your Javascript App
 
-![Flagg Admin](./flagg.png "Logo Title Text 1")
+![Flagg Admin](./flagg.png "Flagg Admin Preview")
 
 Features: 
 - 🎉 Framework Agnostic!
@@ -29,6 +29,7 @@ Flagg gives you a simple, declarative, and extensible way to add feature flags t
 - A / B testing features
 - Customer configuration management "Turn on whitelabeling for this client only"
 - Allowing CI environments to test multiple codepaths for different sets of configuration
+- It's basically chrome://flags for your web app ;)
 
 # Get started
 
@@ -43,21 +44,21 @@ import {flagg, inMemoryStore} from 'flagg';
 const featureFlags = flagg({
   store: inMemoryStore(),
   definitions: {
-    'home.enableV2': {
+    'home_enableV2': {
       default: false
     },
-    'developer.debugMode': {
+    'developer_debugMode': {
       default: process.env.NODE_ENV === 'development'
     },
   }
 });
 
 // Use them!
-if (featureFlags.get('home.enableV2')) {
+if (featureFlags.get('home_enableV2')) {
   // do something for this feature
 }
 
-featureFlags.set('developer.debugMode', true);
+featureFlags.set('developer_debugMode', true);
 ```
 
 # Solutions by Use Case
@@ -65,7 +66,7 @@ featureFlags.set('developer.debugMode', true);
 Before you dive deeper into the documentation, here are some common scenarios you'll likely come across and how you can accomplish them with Flagg.
 
 - Use Case: I want to deploy an unfinished feature so I can start testing it
-- Solution: Use `sessionStore` and then enable the feature via your dev tools by setting `sessionStorage.setItem('ff.myNewFeature', true)` or by using the Flagg admin panel.
+- Solution: Use `sessionStore` and then enable the feature via your dev tools by setting `sessionStorage.setItem('ff_myNewFeature', true)` or by using the Flagg admin panel.
 
 ```javascript
 import {flagg, sessionStore} from 'flagg';
@@ -137,12 +138,14 @@ fetch('https://my.customer.configuration')
 ```
 
 - Use Case: I want my CI tool to test multiple code paths based on feature flags.
-- Solution: Get your feature flag values using envStore, making sure to prefix them with `ff.`.
+- Solution: Get your feature flag values using envStore, making sure to prefix them with `ff_`.
 
 ```javascript
 import {flagg, envStore} from 'flagg';
 
-process.env['ff.myNewFeature'] = true;
+// Environment variable names cant have dots in them
+// Flagg uses an underscore to work around this
+process.env['ff_myNewFeature'] = true;
 
 const featureFlags = flagg({
   store: envStore(process.env),
@@ -162,17 +165,17 @@ A simple key / value store that will be reset on every refresh.
 
 ### `localStore`
 
-Saves feature flag settings to localStorage to persist between tabs and browser restarts. All keys in localStorage will be prefixed with `ff`. Browser only.
+Saves feature flag settings to localStorage to persist between tabs and browser restarts. All keys in localStorage will be prefixed with `ff_`. Browser only.
 
 ### `sessionStore`
 
-Saves feature flag settings to sessionStorage which will only live in the current tab and the current browsing session. All keys in sessionStorage will be prefixed with `ff`. Browser only.
+Saves feature flag settings to sessionStorage which will only live in the current tab and the current browsing session. All keys in sessionStorage will be prefixed with `ff_`. Browser only.
 
 ### `urlStore`: Readonly
 
 Enables reading feature flag settings from a get a parameter or a url search string. Just pass the search string on init. The get paramemter format is the key `ff` pointing to a uri encoded JSON object.
 
-Example: `https://example.com?ff={"home.v2":true}`
+Example: `https://example.com?ff={"home_v2":true}`
 
 ```javascript
 import {flagg, urlStore} from 'flagg';
@@ -184,9 +187,9 @@ const featureFlags = flagg({
 ```
 
 ### `envStore`: Readonly
-Enables reading feature flag settings from either a client side build's `process.env` variable or Node's process.env. When setting feature flags in the environment you need to prefix them with `ff.`
+Enables reading feature flag settings from either a client side build's `process.env` variable or Node's process.env. When setting feature flags in the environment you need to prefix them with `ff_`. 
 
-Example `process.env['ff.home.v2']`
+Example `process.env['ff_home_v2']`
 
 ```javascript
 import {flagg, envStore} from 'flagg';
@@ -215,13 +218,13 @@ const featureFlags = flagg({
   definitions: {
     // Tell this feature flag to use localStore which
     // will let it persist between tabs and browser sessions
-    'home.enableV2': {
+    'home_enableV2': {
       default: false,
       store: 'localStore'
     },
     // This feature flag will use the default store
     // which is sessionStore
-    'developer.debugMode': {
+    'developer_debugMode': {
       default: false
     },
   }
@@ -242,12 +245,12 @@ import {flagg, urlStore, localStore} from 'flagg';
 const featureFlags = flagg({
   store: localStore(),
   definitions: {
-    'home.enableV2': {
+    'home_enableV2': {
       default: false
     }
   }
 });
-// assuming example url https://example.com?ff={"home.enableV2":true}
+// assuming example url https://example.com?ff={"home_enableV2":true}
 featureFlags.hydrateFrom(urlStore(window.location.search))
 ```
 

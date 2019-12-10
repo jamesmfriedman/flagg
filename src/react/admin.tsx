@@ -3,6 +3,7 @@ import { flagg } from '../core';
 import { FlagDefinitions, FlagDefinition } from '../core';
 import { FlaggContext } from './context';
 import styles from './admin-styles';
+import { KEY_DELIMETER } from 'flagg/store/utils';
 
 export function FlaggAdmin({ onDone }: { onDone?: () => void }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,12 +36,13 @@ export function FlaggAdmin({ onDone }: { onDone?: () => void }) {
 
         <div className="flagg-header__end">
           <button
+            title="Copy URL"
             className="flagg-button"
             onClick={() => navigator.clipboard.writeText(shareUrl)}
           >
             <Icon icon="link" />
           </button>
-          <button className="flagg-button" onClick={reset}>
+          <button className="flagg-button" onClick={reset} title="Reset">
             <Icon icon="refresh" />
           </button>
           {onDone && (
@@ -155,7 +157,14 @@ function Flag({
           value={ff.get(flagName) as string}
           options={definition.options as string[]}
           defaultValue={definition.default as string}
-          onChange={evt => ff.set(flagName, evt.currentTarget.value || null)}
+          onChange={evt =>
+            ff.set(
+              flagName,
+              evt.currentTarget.value === ''
+                ? definition.default
+                : evt.currentTarget.value
+            )
+          }
         />
       );
 
@@ -164,7 +173,7 @@ function Flag({
       control = (
         <Input
           value={ff.get(flagName) as string}
-          onChange={evt => ff.set(flagName, evt.currentTarget.value || null)}
+          onChange={evt => ff.set(flagName, evt.currentTarget.value)}
         />
       );
       break;
@@ -202,9 +211,11 @@ function Flag({
 
       <div>
         <div className="flagg-flag__name">
-          <span className="flagg-flag__flag-name">{name}</span>
+          <span className="flagg-flag__flag-name">
+            {definition.name || name}
+          </span>
         </div>
-        {!!definition.description && (
+        {(!!definition.description || definition.default !== undefined) && (
           <div className="flagg-flag__description">
             {definition.description}
           </div>
@@ -271,7 +282,7 @@ const getSortedDefinitions = (
       definition: FlagDefinition;
     }>;
   }>((acc, [flagName, flagDef]) => {
-    const parts = flagName.split('.', 2);
+    const parts = flagName.split(KEY_DELIMETER, 2);
     const category = parts.length > 1 ? parts[0] : '';
     const name = parts.pop() as string;
     acc[category] = acc[category] || [];
@@ -279,6 +290,7 @@ const getSortedDefinitions = (
     const shouldAdd =
       !searchTerm ||
       flagName.toLowerCase().includes(searchTerm) ||
+      (flagDef.name || '').toLowerCase().includes(searchTerm) ||
       (flagDef.description || '').toLowerCase().includes(searchTerm);
 
     shouldAdd &&

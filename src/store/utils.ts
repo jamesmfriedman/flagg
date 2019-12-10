@@ -1,8 +1,9 @@
 import { FlagValue } from '../core';
 
 export const KEY_PREFIX = 'ff';
+export const KEY_DELIMETER = '_';
 
-export const getKey = (key: string) => KEY_PREFIX + '.' + key;
+export const getKey = (key: string) => KEY_PREFIX + KEY_DELIMETER + key;
 
 export const safeParseJSON = (value: any): FlagValue => {
   try {
@@ -11,7 +12,7 @@ export const safeParseJSON = (value: any): FlagValue => {
   return value;
 };
 
-const hasPrefix = (key: string) => key.startsWith(KEY_PREFIX + '.');
+const hasPrefix = (key: string) => key.startsWith(KEY_PREFIX + KEY_DELIMETER);
 
 const removePrefix = (key: string) => key.slice(KEY_PREFIX.length + 1);
 

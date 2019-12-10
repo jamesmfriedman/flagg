@@ -17,8 +17,8 @@ import { useFeatureFlag } from '../feature-flags';
 
 export function Home() {
   const cards = [...Array(5)];
-  const [enableOptIn] = useFeatureFlag('home.enableV2OptIn');
-  const [, setHomeV2] = useFeatureFlag('home.v2');
+  const [enableOptIn] = useFeatureFlag('home_enableV2OptIn');
+  const [, setHomeV2] = useFeatureFlag('home_v2');
 
   return (
     <div>

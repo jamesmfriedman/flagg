@@ -2,6 +2,8 @@ export type FlagValuePrimitive = string | boolean | number | null | object;
 export type FlagValue = FlagValuePrimitive | FlagValuePrimitive[];
 
 export interface FlagDefinition {
+  /** An optional human readable name for your flag. */
+  name?: string;
   /** An optional description to understand what the feature flag is for. */
   description?: string;
   /** Specify which store this feature flag should use. */

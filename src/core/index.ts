@@ -18,6 +18,7 @@ const FROZEN_STORE_NAME = '__frozen';
 
 /** Ensures a value is an array */
 const makeArray = <T>(val: T) =>
+  /* istanbul ignore next */
   Array.isArray(val) ? (val as T) : !!val ? ([val] as T[]) : [];
 
 /** Takes a single or array of store items and makes a name -> value map */
@@ -89,7 +90,7 @@ const getResolvedFlagValue = ({
   return value;
 };
 
-/** Get the fully resolved flag value taking into account the default fallback */
+/** Set the fully resolved flag value taking into account the default fallback */
 const setFlagValue = ({
   frozen,
   definitions,
@@ -175,7 +176,7 @@ const getFlagType = ({ flagDef }: { flagDef: FlagDefinition }) => {
 };
 
 /** Create a new feature flags store with Flagg. */
-export const flagg = <FFKeys extends string>({
+export const flagg = <FFKeys extends string | number>({
   store,
   definitions = {}
 }: FlaggOpts) => {
@@ -211,7 +212,10 @@ export const flagg = <FFKeys extends string>({
 
   const getDefault = (flagName: FFKeys): FlagValue =>
     getFlagDefaultValue({
-      flagDef: getFlagDef({ definitions: state.definitions, flagName })
+      flagDef: getFlagDef({
+        definitions: state.definitions,
+        flagName: String(flagName)
+      })
     });
 
   const set = (
@@ -240,7 +244,10 @@ export const flagg = <FFKeys extends string>({
   };
 
   const isOverridden = (flagName: FFKeys) => {
-    const flagDef = getFlagDef({ flagName, definitions: state.definitions });
+    const flagDef = getFlagDef({
+      flagName: String(flagName),
+      definitions: state.definitions
+    });
     const type = getFlagType({ flagDef });
     return type === 'boolean'
       ? !!get(flagName) !== !!getDefault(flagName)
@@ -275,7 +282,7 @@ export const flagg = <FFKeys extends string>({
 
   const freeze = (flagName: FFKeys) => {
     (state.storeMap[FROZEN_STORE_NAME] as FlaggStore).set(
-      flagName,
+      String(flagName),
       get(flagName)
     );
     state.frozen[flagName] = true;

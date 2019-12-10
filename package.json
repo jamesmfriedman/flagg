@@ -6,6 +6,7 @@
   "homepage": "https://jamesmfriedman.github.io/flagg/",
   "scripts": {
     "build": "npm run clean && tsc",
+    "start": "cd demo && npm start",
     "clean": "rm -rf dist",
     "build:docs": "cd demo && npm run build && rm -rf ../docs && mv -f ./build ../docs && git add --all && git commit -m 'Building Docs'",
     "test": "jest --coverage",

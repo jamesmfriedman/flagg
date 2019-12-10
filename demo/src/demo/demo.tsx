@@ -24,12 +24,12 @@ export function Demo() {
   const [route, setRoute] = useState('home');
   const [navOpen, setNavOpen] = useState(false);
 
-  const [isDarkMode] = useFeatureFlag('app.darkMode');
-  const [title] = useFeatureFlag<string>('app.title');
-  const [brandColor] = useFeatureFlag<string>('app.brandColor');
-  const [isBottomNav] = useFeatureFlag('app.bottomNav');
-  const [homeV2] = useFeatureFlag('home.v2');
-  const [enableFlagg] = useFeatureFlag('developer.enableFlagg');
+  const [isDarkMode] = useFeatureFlag('app_darkMode');
+  const [title] = useFeatureFlag<string>('app_title');
+  const [brandColor] = useFeatureFlag<string>('app_brandColor');
+  const [isBottomNav] = useFeatureFlag('app_bottomNav');
+  const [homeV2] = useFeatureFlag('home_v2');
+  const [enableFlagg] = useFeatureFlag('developer_enableFlagg');
 
   let content = null;
   switch (route) {
@@ -115,8 +115,8 @@ function AppDrawer({
   setOpen: (bool: boolean) => void;
   setRoute: (route: string) => void;
 }) {
-  const [enableFlagg] = useFeatureFlag('developer.enableFlagg');
-  const [title] = useFeatureFlag('app.title');
+  const [enableFlagg] = useFeatureFlag('developer_enableFlagg');
+  const [title] = useFeatureFlag('app_title');
 
   return (
     <Drawer modal open={open} onClose={() => setOpen(false)}>

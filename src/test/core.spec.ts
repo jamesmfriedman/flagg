@@ -9,20 +9,20 @@ import { envStore } from '../store/env-store';
 
 const definitions = {
   testFlag: {},
-  'testFlag.withDefault': {
+  testFlag_withDefault: {
     default: 'hello world'
   },
-  'testFlag.withDefaultArray': {
+  testFlag_withDefaultArray: {
     default: ['a', 'b', 'c']
   },
-  'testFlag.withDefaultObject': {
+  testFlag_withDefaultObject: {
     default: {
       a: true,
       b: true,
       c: true
     }
   },
-  'testFlag.withSpecificStore': {
+  testFlag_withSpecificStore: {
     store: 'localStore'
   },
   trueFlag: {},
@@ -31,9 +31,9 @@ const definitions = {
 
 const stores = [localStore(), inMemoryStore(), sessionStore()];
 
-process.env['ff.testFlag'] = 'ENV_VALUE';
-process.env['ff.falseFlag'] = 'false';
-process.env['ff.trueFlag'] = 'true';
+process.env['ff_testFlag'] = 'ENV_VALUE';
+process.env['ff_falseFlag'] = 'false';
+process.env['ff_trueFlag'] = 'true';
 
 describe('Flagg Core', () => {
   afterEach(() => {
@@ -48,7 +48,7 @@ describe('Flagg Core', () => {
         store
       });
 
-      expect(ff.getDefault('testFlag.withDefault')).toBe('hello world');
+      expect(ff.getDefault('testFlag_withDefault')).toBe('hello world');
     }
   });
 
@@ -92,7 +92,7 @@ describe('Flagg Core', () => {
         store
       });
 
-      expect(ff.get('testFlag.withDefault')).toBe('hello world');
+      expect(ff.get('testFlag_withDefault')).toBe('hello world');
     }
   });
 
@@ -146,7 +146,7 @@ describe('Flagg Core', () => {
       ff.set('testFlag', 'I SET THIS');
       expect(ff.get('testFlag')).toBe('I SET THIS');
 
-      ff.set('testFlag.withDefault', 'hello world');
+      ff.set('testFlag_withDefault', 'hello world');
     }
   });
 
@@ -159,11 +159,11 @@ describe('Flagg Core', () => {
 
       ff.set({
         testFlag: 'Multiple 1',
-        'testFlag.withDefault': 'Multiple 2'
+        testFlag_withDefault: 'Multiple 2'
       });
 
       expect(ff.get('testFlag')).toBe('Multiple 1');
-      expect(ff.get('testFlag.withDefault')).toBe('Multiple 2');
+      expect(ff.get('testFlag_withDefault')).toBe('Multiple 2');
     }
   });
 
@@ -174,11 +174,11 @@ describe('Flagg Core', () => {
         store
       });
 
-      expect(ff.get('testFlag.withDefaultArray')).toEqual(['a', 'b', 'c']);
+      expect(ff.get('testFlag_withDefaultArray')).toEqual(['a', 'b', 'c']);
 
-      ff.set('testFlag.withDefaultArray', ['d', 'e', 'f']);
+      ff.set('testFlag_withDefaultArray', ['d', 'e', 'f']);
 
-      expect(ff.get('testFlag.withDefaultArray')).toEqual(['d', 'e', 'f']);
+      expect(ff.get('testFlag_withDefaultArray')).toEqual(['d', 'e', 'f']);
     }
   });
 
@@ -189,19 +189,19 @@ describe('Flagg Core', () => {
         store
       });
 
-      expect(ff.get('testFlag.withDefaultObject')).toEqual({
+      expect(ff.get('testFlag_withDefaultObject')).toEqual({
         a: true,
         b: true,
         c: true
       });
 
-      ff.set('testFlag.withDefaultObject', {
+      ff.set('testFlag_withDefaultObject', {
         a: false,
         b: false,
         c: false
       });
 
-      expect(ff.get('testFlag.withDefaultObject')).toEqual({
+      expect(ff.get('testFlag_withDefaultObject')).toEqual({
         a: false,
         b: false,
         c: false
@@ -228,7 +228,7 @@ describe('Flagg Core', () => {
     });
 
     const spyWarn = jest.spyOn(console, 'warn');
-    ff.get('testFlag.withSpecificStore');
+    ff.get('testFlag_withSpecificStore');
     expect(spyWarn).toHaveBeenCalled();
     spyWarn.mockReset();
   });
@@ -239,8 +239,8 @@ describe('Flagg Core', () => {
       store: [inMemoryStore(), localStore()]
     });
 
-    ff.set('testFlag.withSpecificStore', 'myStore');
-    expect(ff.get('testFlag.withSpecificStore')).toBe('myStore');
+    ff.set('testFlag_withSpecificStore', 'myStore');
+    expect(ff.get('testFlag_withSpecificStore')).toBe('myStore');
   });
 
   it('urlStore: works', () => {
@@ -253,7 +253,7 @@ describe('Flagg Core', () => {
       urlStore('?ff={%22testFlag%22:%22urlIsWorking%22}&anotherVar=foo')
     );
     expect(ff.get('testFlag')).toBe('urlIsWorking');
-    expect(ff.get('testFlag.withDefault')).toBe('hello world');
+    expect(ff.get('testFlag_withDefault')).toBe('hello world');
     expect(ff.get('na' as any)).toBe(null);
   });
 
@@ -278,7 +278,7 @@ describe('Flagg Core', () => {
     expect(ff.get('testFlag')).toBe('ENV_VALUE');
     expect(ff.get('falseFlag')).toBe(false);
     expect(ff.get('trueFlag')).toBe(true);
-    expect(ff.get('testFlag.withDefault')).toBe('hello world');
+    expect(ff.get('testFlag_withDefault')).toBe('hello world');
     expect(ff.get('na' as any)).toBe(null);
   });
 
@@ -292,12 +292,12 @@ describe('Flagg Core', () => {
       store: inMemoryStore()
     });
 
-    expect(ff.get('testFlag.withDefault')).toBe(null);
+    expect(ff.get('testFlag_withDefault')).toBe(null);
 
     // faking async
     setTimeout(() => {
       ff.setDefinitions(definitions);
-      expect(ff.get('testFlag.withDefault')).toBe('hello world');
+      expect(ff.get('testFlag_withDefault')).toBe('hello world');
       done();
     }, 100);
   });

@@ -3,7 +3,7 @@ export default /* css */ `
 .flagg {
 	text-align: left;
 	position: relative;
-	background-color: #f6f6f9;
+	background-color: white;
 	padding-bottom: 3rem;
 	overflow-y: auto;
 	max-height: 100vh;
@@ -38,6 +38,7 @@ export default /* css */ `
 .flagg-header .flagg-flag-icon {
 	position: relative;
 	top: 4px;
+	margin-right: 1rem;
 }
 
 .flagg-header__name {
@@ -45,7 +46,7 @@ export default /* css */ `
 	font-weight: bold;
 	color: white;
 	text-transform: uppercase;
-	letter-spacing: 1px;
+	letter-spacing: 1.5px;
 	display: inline-block;
 	margin-right: 2rem;
 }
@@ -74,7 +75,7 @@ export default /* css */ `
 	padding: 1rem;
 	-webkit-appearance: none;
 	font-size: 1.25rem;
-	background: transparent;
+	background: whitesmoke;
 	border: 0;
 	flex: 1;
 	position: absolute;
@@ -84,13 +85,15 @@ export default /* css */ `
 	bottom: 0;
 	width: 100%;
 	height: 100%;
-	text-indent: 3rem;
+	text-indent: 4rem;
+	border-radius: 0.5rem;
 }
 
 .flagg-search-icon {
 	position: relative;
 	top: 4px;
 	transition: 0.3s;
+	z-index: 1;
 }
 
 .flagg-categories {
@@ -100,7 +103,7 @@ export default /* css */ `
 
 .flagg-category {
 	padding: 1rem 1rem 1rem 2.5rem;
-	box-shadow: 0 8px 24px rgba(0,0,0,.033);
+	
 	border-radius: 0.75rem;
 	max-width: 50rem;
 	margin: 1rem auto;
@@ -163,11 +166,14 @@ export default /* css */ `
 	height: 2.25rem;
 	margin: 0 0.5rem;
 	cursor: pointer;
-	border-radius: 0.1875rem;
+	border-radius: 9999px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .flagg-button:hover, .flagg-button:focus {
-	background-color: rgba(255,255,255, 0.1);
+	background-color: rgba(255,255,255, 0.2);
 }
 
 .flagg-flag {
@@ -177,7 +183,7 @@ export default /* css */ `
 	justify-content: space-between;
 	font-size: 1.25rem;
 	margin: 0 -1rem 0 -2.5rem;
-	padding: 0.75rem 1rem 0.75rem 2.5rem;
+	padding: 0.5rem 1rem 0.5rem 2.5rem;
 	cursor: pointer;
 	position: relative;
 }
@@ -187,7 +193,7 @@ export default /* css */ `
 }
 
 .flagg-flag:hover {
-	background-color: rgba(0,0,0,.05);
+	
 }
 
 .flagg-flag__category-name {
@@ -201,6 +207,7 @@ export default /* css */ `
 
 .flagg-flag__flag-name {
 	font-weight: 500;
+	font-size: 1.125rem;
 }
 
 .flagg-flag__description {
@@ -210,17 +217,23 @@ export default /* css */ `
 }
 
 .flagg-select {
-	font-size: 1.25rem;
+	font-size: 1rem;
+	height: 2rem;
 }
 
 .flagg-input {
-	font-size: 1.25rem;
+	font-size: 1rem;
 	text-align: center;
 	line-height: 2rem;
+	height: 2rem;
 	padding: 0 0.5rem;
-	border-radius: 0.1875rem;
-	border: 1px solid rgba(0,0,0,.2);
+	border-radius: 0.375rem;
+	border: 1px solid rgba(0,0,0,.3);
+	box-sizing: border-box;
 	width: 100%;
+	margin-left: 1rem;
+	max-width: 30rem;
+	background: #f8f8f8;
 }
 
 .flagg-toggle {
@@ -228,7 +241,7 @@ export default /* css */ `
 	-moz-appearance: none;
 	appearance: none;
 	width: 3.875rem;
-	height: 2rem;
+	height: 1.75rem;
 	display: inline-block;
 	position: relative;
 	border-radius: 3.125rem;
@@ -246,13 +259,13 @@ export default /* css */ `
 	display: block;
 	position: absolute;
 	z-index: 2;
-	width: 1.75rem;
-	height: 1.75rem;
+	width: 1.5rem;
+	height: 1.5rem;
 	background: #fff;
 	left: 2px;
 	top: 2px;
 	border-radius: 50%;
-	font: 0.625rem/1.75rem Helvetica;
+	font: 0.625rem/1.5rem Helvetica;
 	text-transform: uppercase;
 	font-weight: bold;
 	text-indent: -1.375rem;
@@ -268,7 +281,7 @@ export default /* css */ `
 }
 
 .flagg-toggle:checked:before {
-	left: 2rem;
+	left: 2.25rem;
 }
 
 .flagg-footer {

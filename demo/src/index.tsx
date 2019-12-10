@@ -13,7 +13,7 @@ const featureFlags = flagg<keyof typeof definitions>({
   definitions
 });
 
-featureFlags.freeze('developer.enableFlagg');
+featureFlags.freeze('developer_enableFlagg');
 
 ReactDOM.render(
   <FlaggProvider featureFlags={featureFlags}>

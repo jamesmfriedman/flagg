@@ -1,33 +1,39 @@
 import { useFeatureFlag as ffUseFeatureFlag } from 'flagg/react';
-import { FlagValue } from 'flagg';
+import { FlagValue, FlagDefinitions } from 'flagg';
 
-export const definitions = {
-  'app.title': {
+export const definitions: FlagDefinitions = {
+  app_title: {
     default: 'InstaSnap'
   },
-  'app.darkMode': {
+  app_darkMode: {
     default: false
   },
-  'app.brandColor': {
+  app_brandColor: {
     default: '#6200ee',
     options: ['#6200ee', '#009688', '#e91e64']
   },
-  'app.bottomNav': {
+  app_bottomNav: {
     default: false
   },
-  'developer.debug': {},
-  'developer.enableFlagg': {
+  app_whitelabel: {
+    options: ['Corp 1', 'Corp 2', 'Another Company'],
+    default: false
+  },
+  developer_debug: {
+    default: false
+  },
+  developer_enableFlagg: {
     default: true,
     description: 'Very meta... A feature flag to enable Flagg.'
   },
-  'developer.enableExperimentalFeatures': {},
-  'developer.apiUrl': {
+  developer_enableExperimentalFeatures: {},
+  developer_apiUrl: {
     default: 'http://www.example.com/graphql'
   },
-  'home.enableV2OptIn': {
+  home_enableV2OptIn: {
     default: true
   },
-  'home.v2': {
+  home_v2: {
     default: false
   }
 };

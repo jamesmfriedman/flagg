@@ -9,7 +9,7 @@ You can pass a list of valid keys as a union to the `flagg` init function. The s
 ```typescript
 const definitions = {
   myFeatureFlag: {},
-  anotherFlag: {}/
+  anotherFlag: {}
 }
 
 const ff = flagg<keyof typeof definitions>({

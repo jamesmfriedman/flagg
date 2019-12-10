@@ -7,7 +7,7 @@ import { FlagValue } from '../core';
  ****************************************************************/
 
 export const useFeatureFlag = <T extends FlagValue>(
-  flagName: string
+  flagName: string | number
 ): [T, (value: FlagValue) => void] => {
   const { featureFlags } = useContext(FlaggContext);
   return [
