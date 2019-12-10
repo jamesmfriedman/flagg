@@ -11,7 +11,7 @@
     "classnames": "^2.2.6",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "react-scripts": "3.2.0",
+    "react-scripts": "^3.3.0",
     "rmwc": "^5.7.1",
     "typescript": "3.6.4"
   },
