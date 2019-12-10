@@ -3,7 +3,7 @@ import { flagg } from '../core';
 import { FlagDefinitions, FlagDefinition } from '../core';
 import { FlaggContext } from './context';
 import styles from './admin-styles';
-import { KEY_DELIMETER } from 'flagg/store/utils';
+import { KEY_DELIMETER } from '../store/utils';
 
 export function FlaggAdmin({ onDone }: { onDone?: () => void }) {
   const [searchTerm, setSearchTerm] = useState('');
