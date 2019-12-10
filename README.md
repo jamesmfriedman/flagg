@@ -1,3 +1,9 @@
+[![CircleCI](https://circleci.com/gh/jamesmfriedman/flagg/tree/master.svg?style=shield)](https://circleci.com/gh/jamesmfriedman/flagg/tree/master)
+[![codecov](https://codecov.io/gh/jamesmfriedman/flagg/branch/master/graph/badge.svg)](https://codecov.io/gh/jamesmfriedman/flagg)
+[![npm](https://img.shields.io/npm/v/flagg.svg)](https://www.npmjs.com/package/flagg)
+[![npm](https://img.shields.io/npm/dm/flagg/base.svg)](https://www.npmjs.com/package/flagg)
+[![npm](https://img.shields.io/npm/l/flagg.svg)](https://github.com/jamesmfriedman/flagg/blob/master/LICENSE)
+
 # Flagg
 
 Declarative Feature Flagging for your Javascript App
