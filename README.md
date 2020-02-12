@@ -394,6 +394,12 @@ interface FlaggInstance {
   /** Freeze all feature flags. */
   freezeAll: () => void;
 
+  /** Resets a feature flag to its default value. */
+  reset: (flagName: string) => void;
+
+  /** Reset all feature flags to their default value. */
+  resetAll: () => void;
+
   /** Check if a feature flag is frozen. */
   isFrozen: (flagName: string) => boolean;
 }

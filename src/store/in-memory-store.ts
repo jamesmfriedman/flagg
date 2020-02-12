@@ -1,5 +1,4 @@
 import { FlaggStore, FlagValue } from '../core';
-import { getKey } from './utils';
 
 export const inMemoryStore = (): FlaggStore => {
   const store: { [key: string]: FlagValue } = {};
@@ -10,7 +9,7 @@ export const inMemoryStore = (): FlaggStore => {
     set: (flagName, value) => {
       store[flagName] = value;
     },
-    remove: flagName => delete store[getKey(flagName)],
+    remove: flagName => delete store[flagName],
     all: () => store
   };
 };

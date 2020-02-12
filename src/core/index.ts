@@ -296,6 +296,13 @@ export const flagg = <FFKeys extends string | number>({
 
   const isFrozen = (flagName: FFKeys) => !!state.frozen[flagName];
 
+  const reset = (flagName: FFKeys) => set(flagName, getDefault(flagName));
+
+  const resetAll = () =>
+    Object.keys(state.definitions).forEach(flagName =>
+      reset(flagName as FFKeys)
+    );
+
   return {
     /** Gets a value for a feature flag. */
     get,
@@ -317,6 +324,10 @@ export const flagg = <FFKeys extends string | number>({
     freeze,
     /** Freeze all feature flags. */
     freezeAll,
+    /** Resets a feature flag to its default value. */
+    reset,
+    /** Reset all feature flags to their default value. */
+    resetAll,
     /** Check if a feature flag is frozen. */
     isFrozen,
     /** Allows you to hydrate from one or more stores. See the docs on Stores. */

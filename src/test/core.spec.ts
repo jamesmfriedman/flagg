@@ -363,4 +363,30 @@ describe('Flagg Core', () => {
 
     expect(spyWarn).toHaveBeenCalled();
   });
+
+  it('can reset', () => {
+    const ff = flagg<keyof typeof definitions>({
+      definitions,
+      store: inMemoryStore()
+    });
+
+    ff.set('testFlag', true);
+    expect(ff.get('testFlag')).toBe(true);
+
+    ff.reset('testFlag');
+    expect(ff.get('testFlag')).toBe(null);
+  });
+
+  it('can resetAll', () => {
+    const ff = flagg<keyof typeof definitions>({
+      definitions,
+      store: inMemoryStore()
+    });
+
+    ff.set('testFlag', true);
+    expect(ff.get('testFlag')).toBe(true);
+
+    ff.resetAll();
+    expect(ff.get('testFlag')).toBe(null);
+  });
 });
