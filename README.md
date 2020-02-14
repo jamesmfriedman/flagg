@@ -374,7 +374,7 @@ interface FlaggInstance {
   isOverridden: (flagName: string) => boolean;
   
   /** Allows you to hydrate from one or more stores. See the docs on Stores. */
-  hydrateFrom: (storesToHydrateFrom: Store | Store[]) => void;
+  hydrateFrom: (storesToHydrateFrom: Store | Store[]) => Promise<void>;
 
   /** Set the definitions after init. */
   setDefinitions: (definitions: FlagDefinitions) => void;

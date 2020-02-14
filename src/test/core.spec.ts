@@ -243,43 +243,45 @@ describe('Flagg Core', () => {
     expect(ff.get('testFlag_withSpecificStore')).toBe('myStore');
   });
 
-  it('urlStore: works', () => {
+  it('urlStore: works', async done => {
     const ff = flagg<keyof typeof definitions>({
       definitions,
       store: urlStore('?ff={%22testFlag%22:%22urlIsWorking%22}&anotherVar=foo')
     });
 
-    ff.hydrateFrom(
+    await ff.hydrateFrom(
       urlStore('?ff={%22testFlag%22:%22urlIsWorking%22}&anotherVar=foo')
     );
     expect(ff.get('testFlag')).toBe('urlIsWorking');
     expect(ff.get('testFlag_withDefault')).toBe('hello world');
     expect(ff.get('na' as any)).toBe(null);
+    done();
   });
 
-  it('urlStore: has fallback', () => {
+  it('urlStore: has fallback', async done => {
     const ff = flagg<keyof typeof definitions>({
       definitions,
       store: inMemoryStore()
     });
 
-    ff.hydrateFrom(urlStore(''));
-
+    await ff.hydrateFrom(urlStore(''));
     expect(ff.get('testFlag')).toBe(null);
+    done();
   });
 
-  it('envStore: works', () => {
+  it('envStore: works', async done => {
     const ff = flagg<keyof typeof definitions>({
       definitions,
       store: envStore(process.env)
     });
 
-    ff.hydrateFrom(envStore(process.env as any));
+    await ff.hydrateFrom(envStore(process.env as any));
     expect(ff.get('testFlag')).toBe('ENV_VALUE');
     expect(ff.get('falseFlag')).toBe(false);
     expect(ff.get('trueFlag')).toBe(true);
     expect(ff.get('testFlag_withDefault')).toBe('hello world');
     expect(ff.get('na' as any)).toBe(null);
+    done();
   });
 
   it('safeParseJSON', () => {

@@ -196,10 +196,12 @@ export const flagg = <FFKeys extends string | number>({
     const hydrateFromStores = makeArray(
       storeToHydrateFrom
     ) as FlaggReadOnlyStore[];
-    hydrateFromStores.forEach(async hydrateStore => {
-      const values = await hydrateStore.all();
-      set(values as Partial<{ [key in FFKeys]: FlagValue }>);
-    });
+    return Promise.all(
+      hydrateFromStores.map(async hydrateStore => {
+        const values = await hydrateStore.all();
+        set(values as Partial<{ [key in FFKeys]: FlagValue }>);
+      })
+    );
   };
 
   const get = (flagName: FFKeys): FlagValue =>
