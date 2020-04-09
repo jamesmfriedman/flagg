@@ -4,6 +4,7 @@ export default /* css */ `
 	text-align: left;
 	position: relative;
 	background-color: white;
+	color: black;
 	padding-bottom: 3rem;
 	overflow-y: auto;
 	max-height: 100vh;
