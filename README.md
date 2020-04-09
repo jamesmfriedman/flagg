@@ -178,7 +178,7 @@ Saves feature flag settings to sessionStorage which will only live in the curren
 
 ### `urlStore`: Readonly
 
-Enables reading feature flag settings from a get a parameter or a url search string. Just pass the search string on init. The get paramemter format is the key `ff` pointing to a uri encoded JSON object.
+Enables reading feature flag settings from a url search string. Just pass the search string on init. The get paramemter format is the key `ff` pointing to a uri encoded JSON object.
 
 Example: `https://example.com?ff={"home_v2":true}`
 
@@ -207,7 +207,7 @@ const featureFlags = flagg({
 
 ### Custom Stores
 
-Don't see one you for you? Follow this guide: [Writing your own custom store](./README_STORE.md).
+Don't see one for your usecase? Follow this guide: [Writing your own custom store](./README_STORE.md).
 
 ## Specifying Stores
 
